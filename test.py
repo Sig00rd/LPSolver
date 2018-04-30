@@ -1,14 +1,16 @@
 import token_rules
+import grammar_rules
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
 
-lexer = lex.lex(module=token_rules)
-
-lexer.input("sin(x)+cos(x)")
+lexer = lex.lex(module = token_rules)
+parser = yacc.yacc(module = grammar_rules)
 
 while True:
-    tok = lexer.token()
-    if not tok:
+    try:
+        s = input("")
+
+    except EOFError:
         break
-    print(tok)
+
