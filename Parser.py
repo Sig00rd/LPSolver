@@ -12,6 +12,7 @@ tokens = [
         'PLUS',
         'MINUS',
         'DIVIDE',
+        'POW',
         'MULTIPLY',
         'EQUALS',
         'LESSEQUAL',
@@ -20,11 +21,7 @@ tokens = [
         'MORE',
         'LPAREN',
         'RPAREN',
-        'SIN',
-        'COS',
-        'TAN',
-        'COTAN'
-
+        'FUNCTION'
 ]
 
 #=================================
@@ -32,6 +29,7 @@ t_PLUS = r"\+"
 t_MINUS = r"\-"
 t_MULTIPLY = r"\*"
 t_DIVIDE = r"\/"
+t_POW = r"\^"
 t_LESSEQUAL = r"\<\="
 t_MOREEQUAL = r"\>\="
 t_LESS = r"\<"
@@ -39,14 +37,8 @@ t_MORE = r"\>"
 t_EQUALS = r"\="
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
-t_VARIABLE = r"[a-zA-Z_][a-zA_Z_0-9]*"
-t_SIN = r"sin"
-t_COS = r"cos"
-t_TAN = r"tan|tg"
-t_COTAN = r"cotan|ctg"
 
 t_ignore = r" "
-
 #=================================
 def t_FLOAT(t):
     r"\d+\.\d+"
@@ -58,16 +50,20 @@ def t_INT(t):
     t.value = int(t.value)
     return t
 
+def t_FUNCTION(t):
+    r"sin|cos|tan|cotan"
+    return t
 
 #=================================
 def t_error(t):
     print("Illegal characters!")
-    t.lexer.skip()
+    t.lexer.skip(1)
 
+t_VARIABLE = r"[a-zA-Z_][a-zA_Z_0-9]*"
 #=================================
 lexer = lex.lex()
 
-lexer.input("sin(x1+cotan(x2))")
+lexer.input("sin(x)+cos(x2)")
 
 while True:
     tok = lexer.token()
