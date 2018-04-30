@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'DIVIDE EQUALS FLOAT FUNCTION INT LESS LESSEQUAL LPAREN MINUS MORE MOREEQUAL MULTIPLY PLUS POW RPAREN VARIABLE\n    calc : expression\n         | empty\n    \n    expression : INT\n               | FLOAT\n    \n    empty :\n    '
+_lr_signature = 'DIVIDE EQUALS FLOAT FUNCTION INT LESS LESSEQUAL LPAREN MINUS MORE MOREEQUAL MULTIPLY PLUS POW RPAREN VARIABLE\n    calc : expression\n         | empty\n    \n    expression : INT\n               | FLOAT\n    expression : expression PLUS expressionexpression : expression MINUS expressionexpression : expression MULTIPLY expressionexpression : expression DIVIDE expression\n    empty :\n    '
     
-_lr_action_items = {'INT':([0,],[4,]),'FLOAT':([0,],[5,]),'$end':([0,1,2,3,4,5,],[-5,0,-1,-2,-3,-4,]),}
+_lr_action_items = {'INT':([0,6,7,8,9,],[4,4,4,4,4,]),'FLOAT':([0,6,7,8,9,],[5,5,5,5,5,]),'$end':([0,1,2,3,4,5,10,11,12,13,],[-9,0,-1,-2,-3,-4,-5,-6,-7,-8,]),'PLUS':([2,4,5,10,11,12,13,],[6,-3,-4,6,6,6,6,]),'MINUS':([2,4,5,10,11,12,13,],[7,-3,-4,7,7,7,7,]),'MULTIPLY':([2,4,5,10,11,12,13,],[8,-3,-4,8,8,8,8,]),'DIVIDE':([2,4,5,10,11,12,13,],[9,-3,-4,9,9,9,9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'calc':([0,],[1,]),'expression':([0,],[2,]),'empty':([0,],[3,]),}
+_lr_goto_items = {'calc':([0,],[1,]),'expression':([0,6,7,8,9,],[2,10,11,12,13,]),'empty':([0,],[3,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -29,7 +29,11 @@ _lr_productions = [
   ("S' -> calc","S'",1,None,None,None),
   ('calc -> expression','calc',1,'p_calc','grammar_rules.py',6),
   ('calc -> empty','calc',1,'p_calc','grammar_rules.py',7),
-  ('expression -> INT','expression',1,'p_expression','grammar_rules.py',13),
-  ('expression -> FLOAT','expression',1,'p_expression','grammar_rules.py',14),
-  ('empty -> <empty>','empty',0,'p_empty','grammar_rules.py',20),
+  ('expression -> INT','expression',1,'p_expression_int_float','grammar_rules.py',13),
+  ('expression -> FLOAT','expression',1,'p_expression_int_float','grammar_rules.py',14),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_plus','grammar_rules.py',19),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_minus','grammar_rules.py',23),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_multiply','grammar_rules.py',27),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_divide','grammar_rules.py',31),
+  ('empty -> <empty>','empty',0,'p_empty','grammar_rules.py',36),
 ]
