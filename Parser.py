@@ -19,7 +19,11 @@ tokens = [
         'LESS',
         'MORE',
         'LPAREN',
-        'RPAREN'
+        'RPAREN',
+        'SIN',
+        'COS',
+        'TAN',
+        'COTAN'
 
 ]
 
@@ -35,6 +39,11 @@ t_MORE = r"\>"
 t_EQUALS = r"\="
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
+t_VARIABLE = r"[a-zA-Z_][a-zA_Z_0-9]*"
+t_SIN = r"sin"
+t_COS = r"cos"
+t_TAN = r"tan|tg"
+t_COTAN = r"cotan|ctg"
 
 t_ignore = r" "
 
@@ -49,18 +58,16 @@ def t_INT(t):
     t.value = int(t.value)
     return t
 
-def t_VARIABLE(t):
-    r"[a-zA-Z_][a-zA_Z_0-9]*"
-    t.type = "VALUE"
-    return t
 
+#=================================
 def t_error(t):
     print("Illegal characters!")
     t.lexer.skip()
 
+#=================================
 lexer = lex.lex()
 
-lexer.input(">= < > <= =")
+lexer.input("sin(x1+cotan(x2))")
 
 while True:
     tok = lexer.token()
