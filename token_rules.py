@@ -14,14 +14,15 @@ tokens = [
         'DIVIDE',
         'POW',
         'MULTIPLY',
-        'EQUALS',
         'LESSEQUAL',
         'MOREEQUAL',
         'LESS',
         'MORE',
         'LPAREN',
         'RPAREN',
-        'FUNCTION'
+        'FUNCTION',
+        'CONST_PI',
+        'CONST_E'
 ]
 
 #=================================
@@ -34,7 +35,6 @@ t_LESSEQUAL = r"\<\="
 t_MOREEQUAL = r"\>\="
 t_LESS = r"\<"
 t_MORE = r"\>"
-t_EQUALS = r"\="
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
 
@@ -52,6 +52,16 @@ def t_INT(t):
 
 def t_FUNCTION(t):
     r"sin|cos|tan|cotan"
+    return t
+
+def t_CONST_PI(t):
+    r"PI|pi"
+    t.value = 3.14
+    return t
+
+def t_CONST_E(t):
+    r"e"
+    t.value = 2.72
     return t
 
 #=================================

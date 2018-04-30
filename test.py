@@ -7,6 +7,8 @@ import sys
 lexer = lex.lex(module = token_rules)
 parser = yacc.yacc(module = grammar_rules)
 
+lexer.input("sin(x)")
+
 while True:
     try:
         s = input("")

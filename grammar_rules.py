@@ -1,6 +1,14 @@
 import ply.yacc as yacc
 from token_rules import tokens
 
+precedence = (
+    ("left", "PLUS", "MINUS"),
+    ("left", "MULTIPLY", "DIVIDE"),
+)
+
+
+# For testing purposes
+#====================================================
 def p_calc(p):
     '''
     calc : expression
@@ -8,6 +16,7 @@ def p_calc(p):
     '''
     print(p[1])
 
+#====================================================
 def p_expression_int_float(p):
     '''
     expression : INT
@@ -15,6 +24,18 @@ def p_expression_int_float(p):
     '''
     p[0] = p[1]
 
+def p_expression_constant(p):
+    '''
+    expression : CONST_PI
+               | CONST_E
+    '''
+    p[0] = p[1]
+
+def p_expression_variable(p):
+    'expression : VARIABLE'
+    p[0] = p[1]
+
+#====================================================
 def p_expression_plus(p):
     'expression : expression PLUS expression'
     p[0] = p[1] + p[3]
@@ -37,6 +58,7 @@ def p_empty(p):
     '''
     p[0] = None
 
+#====================================================
 def p_error(p):
     print("Syntax error in input!")
 
