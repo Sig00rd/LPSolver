@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDErightPOWCONST_E CONST_PI DIVIDE FLOAT FUNCTION INT LESS LESSEQUAL LPAREN MINUS MORE MOREEQUAL MULTIPLY PLUS POW RPAREN VARIABLE\n    calc : expression\n         | empty\n    \n    expression : INT\n               | FLOAT\n    \n    expression : CONST_PI\n               | CONST_E\n    expression : VARIABLEexpression : expression PLUS expressionexpression : expression MINUS expressionexpression : expression MULTIPLY expressionexpression : expression DIVIDE expressionexpression : expression POW expressionexpression : LPAREN expression RPARENexpression : FUNCTION LPAREN expression RPAREN\n    empty :\n    '
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDErightPOWrightUMINUSCONST_E CONST_PI DIVIDE FLOAT FUNCTION INT LESS LESSEQUAL LPAREN MINUS MORE MOREEQUAL MULTIPLY PLUS POW RPAREN VARIABLE\n    calc : expression\n         | empty\n    \n    expression : INT\n               | FLOAT\n    \n    expression : CONST_PI\n               | CONST_E\n    expression : VARIABLEexpression : MINUS expression %prec UMINUSexpression : expression PLUS expressionexpression : expression MINUS expressionexpression : expression MULTIPLY expressionexpression : expression DIVIDE expressionexpression : expression POW expressionexpression : LPAREN expression RPARENexpression : FUNCTION LPAREN expression RPARENempty : '
     
-_lr_action_items = {'INT':([0,9,11,12,13,14,15,17,],[4,4,4,4,4,4,4,4,]),'FLOAT':([0,9,11,12,13,14,15,17,],[5,5,5,5,5,5,5,5,]),'CONST_PI':([0,9,11,12,13,14,15,17,],[6,6,6,6,6,6,6,6,]),'CONST_E':([0,9,11,12,13,14,15,17,],[7,7,7,7,7,7,7,7,]),'VARIABLE':([0,9,11,12,13,14,15,17,],[8,8,8,8,8,8,8,8,]),'LPAREN':([0,9,10,11,12,13,14,15,17,],[9,9,17,9,9,9,9,9,9,]),'FUNCTION':([0,9,11,12,13,14,15,17,],[10,10,10,10,10,10,10,10,]),'$end':([0,1,2,3,4,5,6,7,8,18,19,20,21,22,23,25,],[-15,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,]),'PLUS':([2,4,5,6,7,8,16,18,19,20,21,22,23,24,25,],[11,-3,-4,-5,-6,-7,11,-8,-9,-10,-11,-12,-13,11,-14,]),'MINUS':([2,4,5,6,7,8,16,18,19,20,21,22,23,24,25,],[12,-3,-4,-5,-6,-7,12,-8,-9,-10,-11,-12,-13,12,-14,]),'MULTIPLY':([2,4,5,6,7,8,16,18,19,20,21,22,23,24,25,],[13,-3,-4,-5,-6,-7,13,13,13,-10,-11,-12,-13,13,-14,]),'DIVIDE':([2,4,5,6,7,8,16,18,19,20,21,22,23,24,25,],[14,-3,-4,-5,-6,-7,14,14,14,-10,-11,-12,-13,14,-14,]),'POW':([2,4,5,6,7,8,16,18,19,20,21,22,23,24,25,],[15,-3,-4,-5,-6,-7,15,15,15,15,15,15,-13,15,-14,]),'RPAREN':([4,5,6,7,8,16,18,19,20,21,22,23,24,25,],[-3,-4,-5,-6,-7,23,-8,-9,-10,-11,-12,-13,25,-14,]),}
+_lr_action_items = {'INT':([0,9,10,12,13,14,15,16,19,],[4,4,4,4,4,4,4,4,4,]),'FLOAT':([0,9,10,12,13,14,15,16,19,],[5,5,5,5,5,5,5,5,5,]),'CONST_PI':([0,9,10,12,13,14,15,16,19,],[6,6,6,6,6,6,6,6,6,]),'CONST_E':([0,9,10,12,13,14,15,16,19,],[7,7,7,7,7,7,7,7,7,]),'VARIABLE':([0,9,10,12,13,14,15,16,19,],[8,8,8,8,8,8,8,8,8,]),'MINUS':([0,2,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,],[9,13,-3,-4,-5,-6,-7,9,9,9,9,9,9,9,-8,13,9,-9,-10,-11,-12,-13,-14,13,-15,]),'LPAREN':([0,9,10,11,12,13,14,15,16,19,],[10,10,10,19,10,10,10,10,10,10,]),'FUNCTION':([0,9,10,12,13,14,15,16,19,],[11,11,11,11,11,11,11,11,11,]),'$end':([0,1,2,3,4,5,6,7,8,17,20,21,22,23,24,25,27,],[-16,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,]),'PLUS':([2,4,5,6,7,8,17,18,20,21,22,23,24,25,26,27,],[12,-3,-4,-5,-6,-7,-8,12,-9,-10,-11,-12,-13,-14,12,-15,]),'MULTIPLY':([2,4,5,6,7,8,17,18,20,21,22,23,24,25,26,27,],[14,-3,-4,-5,-6,-7,-8,14,14,14,-11,-12,-13,-14,14,-15,]),'DIVIDE':([2,4,5,6,7,8,17,18,20,21,22,23,24,25,26,27,],[15,-3,-4,-5,-6,-7,-8,15,15,15,-11,-12,-13,-14,15,-15,]),'POW':([2,4,5,6,7,8,17,18,20,21,22,23,24,25,26,27,],[16,-3,-4,-5,-6,-7,-8,16,16,16,16,16,16,-14,16,-15,]),'RPAREN':([4,5,6,7,8,17,18,20,21,22,23,24,25,26,27,],[-3,-4,-5,-6,-7,-8,25,-9,-10,-11,-12,-13,-14,27,-15,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'calc':([0,],[1,]),'expression':([0,9,11,12,13,14,15,17,],[2,16,18,19,20,21,22,24,]),'empty':([0,],[3,]),}
+_lr_goto_items = {'calc':([0,],[1,]),'expression':([0,9,10,12,13,14,15,16,19,],[2,17,18,20,21,22,23,24,26,]),'empty':([0,],[3,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,19 +27,20 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> calc","S'",1,None,None,None),
-  ('calc -> expression','calc',1,'p_calc','grammar_rules.py',16),
-  ('calc -> empty','calc',1,'p_calc','grammar_rules.py',17),
-  ('expression -> INT','expression',1,'p_expression_int_float','grammar_rules.py',24),
-  ('expression -> FLOAT','expression',1,'p_expression_int_float','grammar_rules.py',25),
-  ('expression -> CONST_PI','expression',1,'p_expression_constant','grammar_rules.py',31),
-  ('expression -> CONST_E','expression',1,'p_expression_constant','grammar_rules.py',32),
-  ('expression -> VARIABLE','expression',1,'p_expression_variable','grammar_rules.py',37),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_plus','grammar_rules.py',42),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_minus','grammar_rules.py',46),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_multiply','grammar_rules.py',50),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_divide','grammar_rules.py',54),
-  ('expression -> expression POW expression','expression',3,'p_expression_power','grammar_rules.py',58),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','grammar_rules.py',62),
-  ('expression -> FUNCTION LPAREN expression RPAREN','expression',4,'p_expression_trigonometric_function','grammar_rules.py',66),
-  ('empty -> <empty>','empty',0,'p_empty','grammar_rules.py',78),
+  ('calc -> expression','calc',1,'p_calc','grammar_rules.py',17),
+  ('calc -> empty','calc',1,'p_calc','grammar_rules.py',18),
+  ('expression -> INT','expression',1,'p_expression_int_float','grammar_rules.py',25),
+  ('expression -> FLOAT','expression',1,'p_expression_int_float','grammar_rules.py',26),
+  ('expression -> CONST_PI','expression',1,'p_expression_constant','grammar_rules.py',32),
+  ('expression -> CONST_E','expression',1,'p_expression_constant','grammar_rules.py',33),
+  ('expression -> VARIABLE','expression',1,'p_expression_variable','grammar_rules.py',38),
+  ('expression -> MINUS expression','expression',2,'p_expression_u_minus','grammar_rules.py',42),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_plus','grammar_rules.py',46),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_minus','grammar_rules.py',50),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_multiply','grammar_rules.py',54),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_divide','grammar_rules.py',58),
+  ('expression -> expression POW expression','expression',3,'p_expression_power','grammar_rules.py',62),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','grammar_rules.py',67),
+  ('expression -> FUNCTION LPAREN expression RPAREN','expression',4,'p_expression_trigonometric_function','grammar_rules.py',71),
+  ('empty -> <empty>','empty',0,'p_empty','grammar_rules.py',83),
 ]
