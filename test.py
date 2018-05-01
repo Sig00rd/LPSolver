@@ -1,18 +1,8 @@
-import token_rules
-import grammar_rules
-import ply.lex as lex
-import ply.yacc as yacc
-import sys
+from parser import Parser
 
-lexer = lex.lex(module = token_rules)
-parser = yacc.yacc(module = grammar_rules)
+point = [1, 2, 3]
+parser = Parser()
 
-lexer.input("sin(x)")
+a = parser.evaluate("2+5 < 2", point)
 
-while True:
-    try:
-        s = input("")
-
-    except EOFError:
-        break
-    parser.parse(s)
+print(a)

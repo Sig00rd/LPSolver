@@ -44,7 +44,7 @@ def t_INT(t):
     return t
 
 def t_FUNCTION(t):
-    r"sin|cos|tan|cotan"
+    r"sin|cos|tan|cotan|sqrt"
     return t
 
 def t_CONST_PI(t):

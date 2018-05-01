@@ -13,15 +13,15 @@ precedence = (
 
 # For testing purposes
 #====================================================
-def p_calc(p):
+def p_result_calc(p):
     '''
-    calc : expression
-         | result
-         | empty
+    result : expression
+           | empty
     '''
-    print(p[1])
+    p[0] = p[1]
 
-def p_result_comparison(p):
+
+def p_result_comp(p):
     'result : expression COMPARISON expression'
     if p[2] == "<=":
         p[0] = (p[1] <= p[3])
@@ -31,7 +31,6 @@ def p_result_comparison(p):
         p[0] = (p[1] < p[3])
     elif p[2] == ">":
         p[0] = (p[1] > p[3])
-    print(p[0], p[1])
 
 #====================================================
 def p_expression_int_float(p):
@@ -40,6 +39,7 @@ def p_expression_int_float(p):
                | FLOAT
     '''
     p[0] = p[1]
+    print(self.point[0])
 
 def p_expression_constant(p):
     '''
@@ -71,17 +71,18 @@ def p_expression_multiply(p):
 def p_expression_divide(p):
     'expression : expression DIVIDE expression'
     p[0] = p[1] / p[3]
-#====================================================
+
 def p_expression_power(p):
     'expression : expression POW expression'
     p[0] = math.pow(p[1], p[3])
 
+#====================================================
 
 def p_expression_group(p):
     'expression : LPAREN expression RPAREN'
     p[0] = p[2]
 
-def p_expression_trigonometric_function(p):
+def p_expression_function(p):
     'expression : FUNCTION LPAREN expression RPAREN'
     if p[1] == "sin":
         p[0] = math.sin(p[3])
