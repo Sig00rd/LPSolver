@@ -14,10 +14,7 @@ tokens = [
         'DIVIDE',
         'POW',
         'MULTIPLY',
-        'LESSEQUAL',
-        'MOREEQUAL',
-        'LESS',
-        'MORE',
+        'COMPARISON',
         'LPAREN',
         'RPAREN',
         'FUNCTION',
@@ -31,10 +28,6 @@ t_MINUS = r"\-"
 t_MULTIPLY = r"\*"
 t_DIVIDE = r"\/"
 t_POW = r"\^"
-t_LESSEQUAL = r"\<\="
-t_MOREEQUAL = r"\>\="
-t_LESS = r"\<"
-t_MORE = r"\>"
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
 
@@ -62,6 +55,10 @@ def t_CONST_PI(t):
 def t_CONST_E(t):
     r"e"
     t.value = math.e
+    return t
+
+def t_COMPARISON(t):
+    r"<=|>=|<|>"
     return t
 
 #=================================

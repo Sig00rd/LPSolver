@@ -3,6 +3,7 @@ import math
 from token_rules import tokens
 
 precedence = (
+    ("nonassoc", "COMPARISON"),
     ("left", "PLUS", "MINUS"),
     ("left", "MULTIPLY", "DIVIDE"),
     ("right", "POW"),
@@ -15,9 +16,22 @@ precedence = (
 def p_calc(p):
     '''
     calc : expression
+         | result
          | empty
     '''
     print(p[1])
+
+def p_result_comparison(p):
+    'result : expression COMPARISON expression'
+    if p[2] == "<=":
+        p[0] = (p[1] <= p[3])
+    elif p[2] == ">=":
+        p[0] = (p[1] >= p[3])
+    elif p[2] == "<":
+        p[0] = (p[1] < p[3])
+    elif p[2] == ">":
+        p[0] = (p[1] > p[3])
+    print(p[0], p[1])
 
 #====================================================
 def p_expression_int_float(p):
@@ -60,7 +74,7 @@ def p_expression_divide(p):
 #====================================================
 def p_expression_power(p):
     'expression : expression POW expression'
-    p[0] = p[1] ** p[3]
+    p[0] = math.pow(p[1], p[3])
 
 
 def p_expression_group(p):
