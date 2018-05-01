@@ -1,6 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
-import sys
+import math
 
 
 #=================================
@@ -56,12 +56,12 @@ def t_FUNCTION(t):
 
 def t_CONST_PI(t):
     r"PI|pi"
-    t.value = 3.14
+    t.value = math.pi
     return t
 
 def t_CONST_E(t):
     r"e"
-    t.value = 2.72
+    t.value = math.e
     return t
 
 #=================================

@@ -1,9 +1,11 @@
 import ply.yacc as yacc
+import math
 from token_rules import tokens
 
 precedence = (
     ("left", "PLUS", "MINUS"),
     ("left", "MULTIPLY", "DIVIDE"),
+    ("right", "POW"),
 )
 
 
@@ -51,6 +53,25 @@ def p_expression_multiply(p):
 def p_expression_divide(p):
     'expression : expression DIVIDE expression'
     p[0] = p[1] / p[3]
+
+def p_expression_power(p):
+    'expression : expression POW expression'
+    p[0] = p[1] ** p[3]
+
+def p_expression_group(p):
+    'expression : LPAREN expression RPAREN'
+    p[0] = p[2]
+
+def p_expression_trigonometric_function(p):
+    'expression : FUNCTION LPAREN expression RPAREN'
+    if p[1] == "sin":
+        p[0] = math.sin(p[3])
+    elif p[1] == "cos":
+        p[0] = math.cos(p[3])
+    elif p[1] == "tan":
+        p[0] = math.tan(p[3])
+    elif p[1] == "cotan":
+        p[0] = 1/math.tan(p[3])
 
 def p_empty(p):
     '''
