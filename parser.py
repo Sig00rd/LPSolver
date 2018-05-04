@@ -1,4 +1,3 @@
-import grammar_rules
 import token_rules
 
 import ply.lex as lex
@@ -6,10 +5,21 @@ import ply.yacc as yacc
 
 class Parser:
 
+    point = {}
+    tokens = ()
+
+    precedence = (
+        ("nonassoc", "COMPARISON"),
+        ("left", "PLUS", "MINUS"),
+        ("left", "MULTIPLY", "DIVIDE"),
+        ("right", "POW"),
+        ("right", "UMINUS"),
+    )
+
     def __init__(self):
-        self.point = []
-        lex.lex(module=token_rules)
-        yacc.yacc(module=grammar_rules)
+        self.tokens = token_rules.tokens
+        lex.lex(module = token_rules)
+        yacc.yacc(module = self)
 
     def run(self):
         while True:
@@ -24,8 +34,96 @@ class Parser:
         self.point = _point
 
         try:
-            s = function
-            a = yacc.parse(s)
+            a = yacc.parse(function)
+            print(self.point["x1"])
             return a
         except EOFError:
             print("Zły error")
+
+#====================================================
+    def p_result_calc(self, p):
+        '''
+		result : expression
+               | empty
+		'''
+        p[0] = p[1]
+
+
+    def p_result_comp(self, p):
+        'result : expression COMPARISON expression'
+        if p[2] == "<=":
+            p[0] = (p[1] <= p[3])
+        elif p[2] == ">=":
+            p[0] = (p[1] >= p[3])
+        elif p[2] == "<":
+             p[0] = (p[1] < p[3])
+        elif p[2] == ">":
+            p[0] = (p[1] > p[3])
+
+#====================================================
+    def p_expression_int_float(self, p):
+        '''
+        expression : INT
+                   | FLOAT
+        '''
+        p[0] = p[1]
+
+    def p_expression_constant(self, p):
+        '''
+        expression : CONST_PI
+                   | CONST_E
+        '''
+        p[0] = p[1]
+
+    def p_expression_variable(self, p):
+        'expression : VARIABLE'
+        p[0] = p[1]
+
+    def p_expression_u_minus(self, p):
+        'expression : MINUS expression %prec UMINUS'
+        p[0] = -p[2]
+#====================================================
+    def p_expression_plus(self, p):
+        'expression : expression PLUS expression'
+        p[0] = p[1] + p[3]
+
+    def p_expression_minus(self, p):
+        'expression : expression MINUS expression'
+        p[0] = p[1] - p[3]
+
+    def p_expression_multiply(self, p):
+        'expression : expression MULTIPLY expression'
+        p[0] = p[1] * p[3]
+
+    def p_expression_divide(self, p):
+        'expression : expression DIVIDE expression'
+        p[0] = p[1] / p[3]
+    def p_expression_power(self, p):
+        'expression : expression POW expression'
+        p[0] = math.pow(p[1], p[3])
+
+#====================================================
+
+    def p_expression_group(self, p):
+        'expression : LPAREN expression RPAREN'
+        p[0] = p[2]
+
+    def p_expression_function(self, p):
+        'expression : FUNCTION LPAREN expression RPAREN'
+        if p[1] == "sin":
+            p[0] = math.sin(p[3])
+        elif p[1] == "cos":
+            p[0] = math.cos(p[3])
+        elif p[1] == "tan":
+            p[0] = math.tan(p[3])
+        elif p[1] == "cotan":
+            p[0] = 1/math.tan(p[3])
+
+#====================================================
+    def p_empty(self, p):
+        'empty : '
+        p[0] = None
+
+#====================================================
+    def p_error(self, p):
+        print("Syntax error in input!")
