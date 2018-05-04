@@ -35,7 +35,6 @@ class Parser:
 
         try:
             a = yacc.parse(function)
-            print(self.point["x1"])
             return a
         except EOFError:
             print("Zły error")
@@ -77,7 +76,7 @@ class Parser:
 
     def p_expression_variable(self, p):
         'expression : VARIABLE'
-        p[0] = p[1]
+        p[0] = self.point[p[1]]
 
     def p_expression_u_minus(self, p):
         'expression : MINUS expression %prec UMINUS'
