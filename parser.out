@@ -5,44 +5,45 @@ Grammar
 Rule 0     S' -> result
 Rule 1     result -> expression
 Rule 2     result -> empty
-Rule 3     result -> expression COMPARISON expression
-Rule 4     expression -> INT
-Rule 5     expression -> FLOAT
-Rule 6     expression -> CONST_PI
-Rule 7     expression -> CONST_E
-Rule 8     expression -> VARIABLE
-Rule 9     expression -> MINUS expression
-Rule 10    expression -> expression PLUS expression
-Rule 11    expression -> expression MINUS expression
-Rule 12    expression -> expression MULTIPLY expression
-Rule 13    expression -> expression DIVIDE expression
-Rule 14    expression -> expression POW expression
-Rule 15    expression -> LPAREN expression RPAREN
-Rule 16    expression -> FUNCTION LPAREN expression RPAREN
-Rule 17    empty -> <empty>
+Rule 3     result -> expression COMPARISON expression COMPARISON expression
+Rule 4     result -> expression COMPARISON expression
+Rule 5     expression -> INT
+Rule 6     expression -> FLOAT
+Rule 7     expression -> CONST_PI
+Rule 8     expression -> CONST_E
+Rule 9     expression -> VARIABLE
+Rule 10    expression -> MINUS expression
+Rule 11    expression -> expression PLUS expression
+Rule 12    expression -> expression MINUS expression
+Rule 13    expression -> expression MULTIPLY expression
+Rule 14    expression -> expression DIVIDE expression
+Rule 15    expression -> expression POW expression
+Rule 16    expression -> LPAREN expression RPAREN
+Rule 17    expression -> FUNCTION LPAREN expression RPAREN
+Rule 18    empty -> <empty>
 
 Terminals, with rules where they appear
 
-COMPARISON           : 3
-CONST_E              : 7
-CONST_PI             : 6
-DIVIDE               : 13
-FLOAT                : 5
-FUNCTION             : 16
-INT                  : 4
-LPAREN               : 15 16
-MINUS                : 9 11
-MULTIPLY             : 12
-PLUS                 : 10
-POW                  : 14
-RPAREN               : 15 16
-VARIABLE             : 8
+COMPARISON           : 3 3 4
+CONST_E              : 8
+CONST_PI             : 7
+DIVIDE               : 14
+FLOAT                : 6
+FUNCTION             : 17
+INT                  : 5
+LPAREN               : 16 17
+MINUS                : 10 12
+MULTIPLY             : 13
+PLUS                 : 11
+POW                  : 15
+RPAREN               : 16 17
+VARIABLE             : 9
 error                : 
 
 Nonterminals, with rules where they appear
 
 empty                : 2
-expression           : 1 3 3 9 10 10 11 11 12 12 13 13 14 14 15 16
+expression           : 1 3 3 3 4 4 10 11 11 12 12 13 13 14 14 15 15 16 17
 result               : 0
 
 Parsing method: LALR
@@ -52,21 +53,22 @@ state 0
     (0) S' -> . result
     (1) result -> . expression
     (2) result -> . empty
-    (3) result -> . expression COMPARISON expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
-    (17) empty -> .
+    (3) result -> . expression COMPARISON expression COMPARISON expression
+    (4) result -> . expression COMPARISON expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
+    (18) empty -> .
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -76,7 +78,7 @@ state 0
     MINUS           shift and go to state 9
     LPAREN          shift and go to state 10
     FUNCTION        shift and go to state 11
-    $end            reduce using rule 17 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
 
     result                         shift and go to state 1
     expression                     shift and go to state 2
@@ -91,12 +93,13 @@ state 1
 state 2
 
     (1) result -> expression .
-    (3) result -> expression . COMPARISON expression
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (3) result -> expression . COMPARISON expression COMPARISON expression
+    (4) result -> expression . COMPARISON expression
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
     $end            reduce using rule 1 (result -> expression .)
     COMPARISON      shift and go to state 12
@@ -116,90 +119,90 @@ state 3
 
 state 4
 
-    (4) expression -> INT .
+    (5) expression -> INT .
 
-    COMPARISON      reduce using rule 4 (expression -> INT .)
-    PLUS            reduce using rule 4 (expression -> INT .)
-    MINUS           reduce using rule 4 (expression -> INT .)
-    MULTIPLY        reduce using rule 4 (expression -> INT .)
-    DIVIDE          reduce using rule 4 (expression -> INT .)
-    POW             reduce using rule 4 (expression -> INT .)
-    $end            reduce using rule 4 (expression -> INT .)
-    RPAREN          reduce using rule 4 (expression -> INT .)
+    COMPARISON      reduce using rule 5 (expression -> INT .)
+    PLUS            reduce using rule 5 (expression -> INT .)
+    MINUS           reduce using rule 5 (expression -> INT .)
+    MULTIPLY        reduce using rule 5 (expression -> INT .)
+    DIVIDE          reduce using rule 5 (expression -> INT .)
+    POW             reduce using rule 5 (expression -> INT .)
+    $end            reduce using rule 5 (expression -> INT .)
+    RPAREN          reduce using rule 5 (expression -> INT .)
 
 
 state 5
 
-    (5) expression -> FLOAT .
+    (6) expression -> FLOAT .
 
-    COMPARISON      reduce using rule 5 (expression -> FLOAT .)
-    PLUS            reduce using rule 5 (expression -> FLOAT .)
-    MINUS           reduce using rule 5 (expression -> FLOAT .)
-    MULTIPLY        reduce using rule 5 (expression -> FLOAT .)
-    DIVIDE          reduce using rule 5 (expression -> FLOAT .)
-    POW             reduce using rule 5 (expression -> FLOAT .)
-    $end            reduce using rule 5 (expression -> FLOAT .)
-    RPAREN          reduce using rule 5 (expression -> FLOAT .)
+    COMPARISON      reduce using rule 6 (expression -> FLOAT .)
+    PLUS            reduce using rule 6 (expression -> FLOAT .)
+    MINUS           reduce using rule 6 (expression -> FLOAT .)
+    MULTIPLY        reduce using rule 6 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 6 (expression -> FLOAT .)
+    POW             reduce using rule 6 (expression -> FLOAT .)
+    $end            reduce using rule 6 (expression -> FLOAT .)
+    RPAREN          reduce using rule 6 (expression -> FLOAT .)
 
 
 state 6
 
-    (6) expression -> CONST_PI .
+    (7) expression -> CONST_PI .
 
-    COMPARISON      reduce using rule 6 (expression -> CONST_PI .)
-    PLUS            reduce using rule 6 (expression -> CONST_PI .)
-    MINUS           reduce using rule 6 (expression -> CONST_PI .)
-    MULTIPLY        reduce using rule 6 (expression -> CONST_PI .)
-    DIVIDE          reduce using rule 6 (expression -> CONST_PI .)
-    POW             reduce using rule 6 (expression -> CONST_PI .)
-    $end            reduce using rule 6 (expression -> CONST_PI .)
-    RPAREN          reduce using rule 6 (expression -> CONST_PI .)
+    COMPARISON      reduce using rule 7 (expression -> CONST_PI .)
+    PLUS            reduce using rule 7 (expression -> CONST_PI .)
+    MINUS           reduce using rule 7 (expression -> CONST_PI .)
+    MULTIPLY        reduce using rule 7 (expression -> CONST_PI .)
+    DIVIDE          reduce using rule 7 (expression -> CONST_PI .)
+    POW             reduce using rule 7 (expression -> CONST_PI .)
+    $end            reduce using rule 7 (expression -> CONST_PI .)
+    RPAREN          reduce using rule 7 (expression -> CONST_PI .)
 
 
 state 7
 
-    (7) expression -> CONST_E .
+    (8) expression -> CONST_E .
 
-    COMPARISON      reduce using rule 7 (expression -> CONST_E .)
-    PLUS            reduce using rule 7 (expression -> CONST_E .)
-    MINUS           reduce using rule 7 (expression -> CONST_E .)
-    MULTIPLY        reduce using rule 7 (expression -> CONST_E .)
-    DIVIDE          reduce using rule 7 (expression -> CONST_E .)
-    POW             reduce using rule 7 (expression -> CONST_E .)
-    $end            reduce using rule 7 (expression -> CONST_E .)
-    RPAREN          reduce using rule 7 (expression -> CONST_E .)
+    COMPARISON      reduce using rule 8 (expression -> CONST_E .)
+    PLUS            reduce using rule 8 (expression -> CONST_E .)
+    MINUS           reduce using rule 8 (expression -> CONST_E .)
+    MULTIPLY        reduce using rule 8 (expression -> CONST_E .)
+    DIVIDE          reduce using rule 8 (expression -> CONST_E .)
+    POW             reduce using rule 8 (expression -> CONST_E .)
+    $end            reduce using rule 8 (expression -> CONST_E .)
+    RPAREN          reduce using rule 8 (expression -> CONST_E .)
 
 
 state 8
 
-    (8) expression -> VARIABLE .
+    (9) expression -> VARIABLE .
 
-    COMPARISON      reduce using rule 8 (expression -> VARIABLE .)
-    PLUS            reduce using rule 8 (expression -> VARIABLE .)
-    MINUS           reduce using rule 8 (expression -> VARIABLE .)
-    MULTIPLY        reduce using rule 8 (expression -> VARIABLE .)
-    DIVIDE          reduce using rule 8 (expression -> VARIABLE .)
-    POW             reduce using rule 8 (expression -> VARIABLE .)
-    $end            reduce using rule 8 (expression -> VARIABLE .)
-    RPAREN          reduce using rule 8 (expression -> VARIABLE .)
+    COMPARISON      reduce using rule 9 (expression -> VARIABLE .)
+    PLUS            reduce using rule 9 (expression -> VARIABLE .)
+    MINUS           reduce using rule 9 (expression -> VARIABLE .)
+    MULTIPLY        reduce using rule 9 (expression -> VARIABLE .)
+    DIVIDE          reduce using rule 9 (expression -> VARIABLE .)
+    POW             reduce using rule 9 (expression -> VARIABLE .)
+    $end            reduce using rule 9 (expression -> VARIABLE .)
+    RPAREN          reduce using rule 9 (expression -> VARIABLE .)
 
 
 state 9
 
-    (9) expression -> MINUS . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (10) expression -> MINUS . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -214,20 +217,20 @@ state 9
 
 state 10
 
-    (15) expression -> LPAREN . expression RPAREN
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (16) expression -> LPAREN . expression RPAREN
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -242,27 +245,28 @@ state 10
 
 state 11
 
-    (16) expression -> FUNCTION . LPAREN expression RPAREN
+    (17) expression -> FUNCTION . LPAREN expression RPAREN
 
     LPAREN          shift and go to state 20
 
 
 state 12
 
-    (3) result -> expression COMPARISON . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (3) result -> expression COMPARISON . expression COMPARISON expression
+    (4) result -> expression COMPARISON . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -277,20 +281,20 @@ state 12
 
 state 13
 
-    (10) expression -> expression PLUS . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (11) expression -> expression PLUS . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -305,20 +309,20 @@ state 13
 
 state 14
 
-    (11) expression -> expression MINUS . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (12) expression -> expression MINUS . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -333,20 +337,20 @@ state 14
 
 state 15
 
-    (12) expression -> expression MULTIPLY . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (13) expression -> expression MULTIPLY . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -361,20 +365,20 @@ state 15
 
 state 16
 
-    (13) expression -> expression DIVIDE . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (14) expression -> expression DIVIDE . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -389,20 +393,20 @@ state 16
 
 state 17
 
-    (14) expression -> expression POW . expression
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (15) expression -> expression POW . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -417,21 +421,21 @@ state 17
 
 state 18
 
-    (9) expression -> MINUS expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (10) expression -> MINUS expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    COMPARISON      reduce using rule 9 (expression -> MINUS expression .)
-    PLUS            reduce using rule 9 (expression -> MINUS expression .)
-    MINUS           reduce using rule 9 (expression -> MINUS expression .)
-    MULTIPLY        reduce using rule 9 (expression -> MINUS expression .)
-    DIVIDE          reduce using rule 9 (expression -> MINUS expression .)
-    POW             reduce using rule 9 (expression -> MINUS expression .)
-    $end            reduce using rule 9 (expression -> MINUS expression .)
-    RPAREN          reduce using rule 9 (expression -> MINUS expression .)
+    COMPARISON      reduce using rule 10 (expression -> MINUS expression .)
+    PLUS            reduce using rule 10 (expression -> MINUS expression .)
+    MINUS           reduce using rule 10 (expression -> MINUS expression .)
+    MULTIPLY        reduce using rule 10 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 10 (expression -> MINUS expression .)
+    POW             reduce using rule 10 (expression -> MINUS expression .)
+    $end            reduce using rule 10 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 10 (expression -> MINUS expression .)
 
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
@@ -442,12 +446,12 @@ state 18
 
 state 19
 
-    (15) expression -> LPAREN expression . RPAREN
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (16) expression -> LPAREN expression . RPAREN
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
     RPAREN          shift and go to state 27
     PLUS            shift and go to state 13
@@ -459,20 +463,20 @@ state 19
 
 state 20
 
-    (16) expression -> FUNCTION LPAREN . expression RPAREN
-    (4) expression -> . INT
-    (5) expression -> . FLOAT
-    (6) expression -> . CONST_PI
-    (7) expression -> . CONST_E
-    (8) expression -> . VARIABLE
-    (9) expression -> . MINUS expression
-    (10) expression -> . expression PLUS expression
-    (11) expression -> . expression MINUS expression
-    (12) expression -> . expression MULTIPLY expression
-    (13) expression -> . expression DIVIDE expression
-    (14) expression -> . expression POW expression
-    (15) expression -> . LPAREN expression RPAREN
-    (16) expression -> . FUNCTION LPAREN expression RPAREN
+    (17) expression -> FUNCTION LPAREN . expression RPAREN
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 5
@@ -487,14 +491,16 @@ state 20
 
 state 21
 
-    (3) result -> expression COMPARISON expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (3) result -> expression COMPARISON expression . COMPARISON expression
+    (4) result -> expression COMPARISON expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    $end            reduce using rule 3 (result -> expression COMPARISON expression .)
+    COMPARISON      shift and go to state 29
+    $end            reduce using rule 4 (result -> expression COMPARISON expression .)
     PLUS            shift and go to state 13
     MINUS           shift and go to state 14
     MULTIPLY        shift and go to state 15
@@ -504,73 +510,73 @@ state 21
 
 state 22
 
-    (10) expression -> expression PLUS expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (11) expression -> expression PLUS expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    COMPARISON      reduce using rule 10 (expression -> expression PLUS expression .)
-    PLUS            reduce using rule 10 (expression -> expression PLUS expression .)
-    MINUS           reduce using rule 10 (expression -> expression PLUS expression .)
-    $end            reduce using rule 10 (expression -> expression PLUS expression .)
-    RPAREN          reduce using rule 10 (expression -> expression PLUS expression .)
+    COMPARISON      reduce using rule 11 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 11 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 11 (expression -> expression PLUS expression .)
+    $end            reduce using rule 11 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 11 (expression -> expression PLUS expression .)
     MULTIPLY        shift and go to state 15
     DIVIDE          shift and go to state 16
     POW             shift and go to state 17
 
-  ! MULTIPLY        [ reduce using rule 10 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 10 (expression -> expression PLUS expression .) ]
-  ! POW             [ reduce using rule 10 (expression -> expression PLUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 11 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 11 (expression -> expression PLUS expression .) ]
+  ! POW             [ reduce using rule 11 (expression -> expression PLUS expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
 
 
 state 23
 
-    (11) expression -> expression MINUS expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (12) expression -> expression MINUS expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    COMPARISON      reduce using rule 11 (expression -> expression MINUS expression .)
-    PLUS            reduce using rule 11 (expression -> expression MINUS expression .)
-    MINUS           reduce using rule 11 (expression -> expression MINUS expression .)
-    $end            reduce using rule 11 (expression -> expression MINUS expression .)
-    RPAREN          reduce using rule 11 (expression -> expression MINUS expression .)
+    COMPARISON      reduce using rule 12 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 12 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 12 (expression -> expression MINUS expression .)
+    $end            reduce using rule 12 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 12 (expression -> expression MINUS expression .)
     MULTIPLY        shift and go to state 15
     DIVIDE          shift and go to state 16
     POW             shift and go to state 17
 
-  ! MULTIPLY        [ reduce using rule 11 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 11 (expression -> expression MINUS expression .) ]
-  ! POW             [ reduce using rule 11 (expression -> expression MINUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 12 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 12 (expression -> expression MINUS expression .) ]
+  ! POW             [ reduce using rule 12 (expression -> expression MINUS expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
 
 
 state 24
 
-    (12) expression -> expression MULTIPLY expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (13) expression -> expression MULTIPLY expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    COMPARISON      reduce using rule 12 (expression -> expression MULTIPLY expression .)
-    PLUS            reduce using rule 12 (expression -> expression MULTIPLY expression .)
-    MINUS           reduce using rule 12 (expression -> expression MULTIPLY expression .)
-    MULTIPLY        reduce using rule 12 (expression -> expression MULTIPLY expression .)
-    DIVIDE          reduce using rule 12 (expression -> expression MULTIPLY expression .)
-    $end            reduce using rule 12 (expression -> expression MULTIPLY expression .)
-    RPAREN          reduce using rule 12 (expression -> expression MULTIPLY expression .)
+    COMPARISON      reduce using rule 13 (expression -> expression MULTIPLY expression .)
+    PLUS            reduce using rule 13 (expression -> expression MULTIPLY expression .)
+    MINUS           reduce using rule 13 (expression -> expression MULTIPLY expression .)
+    MULTIPLY        reduce using rule 13 (expression -> expression MULTIPLY expression .)
+    DIVIDE          reduce using rule 13 (expression -> expression MULTIPLY expression .)
+    $end            reduce using rule 13 (expression -> expression MULTIPLY expression .)
+    RPAREN          reduce using rule 13 (expression -> expression MULTIPLY expression .)
     POW             shift and go to state 17
 
-  ! POW             [ reduce using rule 12 (expression -> expression MULTIPLY expression .) ]
+  ! POW             [ reduce using rule 13 (expression -> expression MULTIPLY expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
   ! MULTIPLY        [ shift and go to state 15 ]
@@ -579,23 +585,23 @@ state 24
 
 state 25
 
-    (13) expression -> expression DIVIDE expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (14) expression -> expression DIVIDE expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    COMPARISON      reduce using rule 13 (expression -> expression DIVIDE expression .)
-    PLUS            reduce using rule 13 (expression -> expression DIVIDE expression .)
-    MINUS           reduce using rule 13 (expression -> expression DIVIDE expression .)
-    MULTIPLY        reduce using rule 13 (expression -> expression DIVIDE expression .)
-    DIVIDE          reduce using rule 13 (expression -> expression DIVIDE expression .)
-    $end            reduce using rule 13 (expression -> expression DIVIDE expression .)
-    RPAREN          reduce using rule 13 (expression -> expression DIVIDE expression .)
+    COMPARISON      reduce using rule 14 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 14 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 14 (expression -> expression DIVIDE expression .)
+    MULTIPLY        reduce using rule 14 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 14 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 14 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 14 (expression -> expression DIVIDE expression .)
     POW             shift and go to state 17
 
-  ! POW             [ reduce using rule 13 (expression -> expression DIVIDE expression .) ]
+  ! POW             [ reduce using rule 14 (expression -> expression DIVIDE expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
   ! MULTIPLY        [ shift and go to state 15 ]
@@ -604,23 +610,23 @@ state 25
 
 state 26
 
-    (14) expression -> expression POW expression .
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (15) expression -> expression POW expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    COMPARISON      reduce using rule 14 (expression -> expression POW expression .)
-    PLUS            reduce using rule 14 (expression -> expression POW expression .)
-    MINUS           reduce using rule 14 (expression -> expression POW expression .)
-    MULTIPLY        reduce using rule 14 (expression -> expression POW expression .)
-    DIVIDE          reduce using rule 14 (expression -> expression POW expression .)
-    $end            reduce using rule 14 (expression -> expression POW expression .)
-    RPAREN          reduce using rule 14 (expression -> expression POW expression .)
+    COMPARISON      reduce using rule 15 (expression -> expression POW expression .)
+    PLUS            reduce using rule 15 (expression -> expression POW expression .)
+    MINUS           reduce using rule 15 (expression -> expression POW expression .)
+    MULTIPLY        reduce using rule 15 (expression -> expression POW expression .)
+    DIVIDE          reduce using rule 15 (expression -> expression POW expression .)
+    $end            reduce using rule 15 (expression -> expression POW expression .)
+    RPAREN          reduce using rule 15 (expression -> expression POW expression .)
     POW             shift and go to state 17
 
-  ! POW             [ reduce using rule 14 (expression -> expression POW expression .) ]
+  ! POW             [ reduce using rule 15 (expression -> expression POW expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
   ! MULTIPLY        [ shift and go to state 15 ]
@@ -629,28 +635,28 @@ state 26
 
 state 27
 
-    (15) expression -> LPAREN expression RPAREN .
+    (16) expression -> LPAREN expression RPAREN .
 
-    COMPARISON      reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    MULTIPLY        reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    POW             reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    $end            reduce using rule 15 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 15 (expression -> LPAREN expression RPAREN .)
+    COMPARISON      reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    MULTIPLY        reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    POW             reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
 
 
 state 28
 
-    (16) expression -> FUNCTION LPAREN expression . RPAREN
-    (10) expression -> expression . PLUS expression
-    (11) expression -> expression . MINUS expression
-    (12) expression -> expression . MULTIPLY expression
-    (13) expression -> expression . DIVIDE expression
-    (14) expression -> expression . POW expression
+    (17) expression -> FUNCTION LPAREN expression . RPAREN
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
 
-    RPAREN          shift and go to state 29
+    RPAREN          shift and go to state 30
     PLUS            shift and go to state 13
     MINUS           shift and go to state 14
     MULTIPLY        shift and go to state 15
@@ -660,14 +666,59 @@ state 28
 
 state 29
 
-    (16) expression -> FUNCTION LPAREN expression RPAREN .
+    (3) result -> expression COMPARISON expression COMPARISON . expression
+    (5) expression -> . INT
+    (6) expression -> . FLOAT
+    (7) expression -> . CONST_PI
+    (8) expression -> . CONST_E
+    (9) expression -> . VARIABLE
+    (10) expression -> . MINUS expression
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+    (13) expression -> . expression MULTIPLY expression
+    (14) expression -> . expression DIVIDE expression
+    (15) expression -> . expression POW expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . FUNCTION LPAREN expression RPAREN
 
-    COMPARISON      reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    PLUS            reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    MINUS           reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    MULTIPLY        reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    POW             reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    $end            reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 16 (expression -> FUNCTION LPAREN expression RPAREN .)
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    CONST_PI        shift and go to state 6
+    CONST_E         shift and go to state 7
+    VARIABLE        shift and go to state 8
+    MINUS           shift and go to state 9
+    LPAREN          shift and go to state 10
+    FUNCTION        shift and go to state 11
+
+    expression                     shift and go to state 31
+
+state 30
+
+    (17) expression -> FUNCTION LPAREN expression RPAREN .
+
+    COMPARISON      reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    PLUS            reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    MINUS           reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    MULTIPLY        reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    POW             reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    $end            reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 17 (expression -> FUNCTION LPAREN expression RPAREN .)
+
+
+state 31
+
+    (3) result -> expression COMPARISON expression COMPARISON expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+    (13) expression -> expression . MULTIPLY expression
+    (14) expression -> expression . DIVIDE expression
+    (15) expression -> expression . POW expression
+
+    $end            reduce using rule 3 (result -> expression COMPARISON expression COMPARISON expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+    POW             shift and go to state 17
 

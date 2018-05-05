@@ -3,6 +3,7 @@ import token_rules
 import ply.lex as lex
 import ply.yacc as yacc
 
+import math
 class Parser:
 
     point = {}
@@ -47,6 +48,10 @@ class Parser:
 		'''
         p[0] = p[1]
 
+    def p_result_doublecomp(self, p):
+        'result : expression COMPARISON expression COMPARISON expression'
+        p[0] = (self.evaluate(str(p[1]) + str(p[2]) + str(p[3]), self.point) and
+        self.evaluate(str(p[3]) + str(p[4]) + str(p[5]), self.point))
 
     def p_result_comp(self, p):
         'result : expression COMPARISON expression'
@@ -55,7 +60,7 @@ class Parser:
         elif p[2] == ">=":
             p[0] = (p[1] >= p[3])
         elif p[2] == "<":
-             p[0] = (p[1] < p[3])
+            p[0] = (p[1] < p[3])
         elif p[2] == ">":
             p[0] = (p[1] > p[3])
 
