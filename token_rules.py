@@ -42,7 +42,7 @@ def t_INT(t):
     return t
 
 def t_FUNCTION(t):
-    r"sin|cos|tan|cotan|sqrt"
+    r"sin|cos|tan|cotan"
     return t
 
 def t_CONST_PI(t):
