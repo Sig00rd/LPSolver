@@ -1,40 +1,58 @@
 from parser import Parser
+import speaker
+
+from sortedcontainers import SortedDict
+from queue import Queue
 import random
 
+
+def generate_point(area):
+    _point = {}
+    for name in variable_list:
+        _point[name] = random.uniform(0, area)
+    return _point
+
+
+def check_point_for_constraints(parser, given_point):
+    for constraint in constraint_list:
+        if parser.evaluate(constraint, given_point) is not True:
+            return False
+    return True
+
+
 # magical numbers
-POINTS_PER_ITERATION = 100
+POINTS_PER_ITERATION = 1000
 STARTING_AREA = 10000
 RELATIVE_DIFFERENCE_THRESHOLD = 0.01
 
-variableNames = []
-constraintFunctions = []
+# get data from user
+variable_list = speaker.get_variables()
+constraint_list = speaker.get_constraint_functions()
+goal_function = speaker.get_goal_function()
+objective = speaker.get_min_or_max()
 
-def getConstraintFunctions():
-    while(True):
-        newConstraint = input("Proszę wpisać ograniczenie lub kliknąć "+
-                "enter aby zakończyć: ")
-        if(newConstraint == ""):
-            return
-        constraintFunctions.append(newConstraint)
-
-def getVariableNames():
-    while(True):
-        newVariable = input("Proszę wpisać nową zmienną lub kliknąć enter żeby "
-        + "zakończyć: ")
-        if(newVariable == ""):
-            return
-        variableNames.append(newVariable)
-
-getVariableNames()
-getConstraintFunctions()
-point = {}
-for name in variableNames:
-    point[name] = random.uniform(0, STARTING_AREA)
+points_queue = Queue()
+valid_points = SortedDict()
+new_parser = Parser()
 
 
-parser = Parser()
+for i in range(POINTS_PER_ITERATION):
+    new_point = generate_point(STARTING_AREA)
+    points_queue.put(new_point)
 
-for constraint in constraintFunctions:
-    result = parser.evaluate(constraint, point)
-    print(result)
+
+while not points_queue.empty():
+    point = points_queue.get()
+    if check_point_for_constraints(new_parser, point) is True:
+        goal_function_value_at_point = new_parser.evaluate(goal_function, point)
+        valid_points[goal_function_value_at_point] = point
+    points_queue.task_done()
+
+
+if objective == "max":
+    current_best_value, current_best_point = valid_points.popitem()
+elif objective == "min":
+    current_best_value, current_best_point = valid_points.popitem(False)
+
+print(current_best_value)
 

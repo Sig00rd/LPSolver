@@ -43,9 +43,9 @@ class Parser:
 #====================================================
     def p_result_calc(self, p):
         '''
-		result : expression
+        result : expression
                | empty
-		'''
+        '''
         p[0] = p[1]
 
     def p_result_doublecomp(self, p):
