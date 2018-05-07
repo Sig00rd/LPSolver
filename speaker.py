@@ -27,4 +27,5 @@ def get_min_or_max():
     answer = input("Szukana jest minimalna (min) czy maksymalna (max) wartosc funkcji celu? min/max: ")
     if answer == "min" or answer == "max":
         return answer
-    return
+    else:
+        return get_min_or_max()

@@ -4,6 +4,8 @@ import ply.lex as lex
 import ply.yacc as yacc
 
 import math
+
+
 class Parser:
 
     point = {}
@@ -19,8 +21,8 @@ class Parser:
 
     def __init__(self):
         self.tokens = token_rules.tokens
-        lex.lex(module = token_rules)
-        yacc.yacc(module = self)
+        lex.lex(module=token_rules)
+        yacc.yacc(module=self)
 
     def run(self):
         while True:
@@ -31,11 +33,11 @@ class Parser:
             result = yacc.parse(s)
             print(result)
 
-    def evaluate(self, function, _point):
+    def evaluate(self, function_expression, _point):
         self.point = _point
 
         try:
-            a = yacc.parse(function)
+            a = yacc.parse(function_expression)
             return a
         except EOFError:
             print("Zły error")
@@ -51,7 +53,7 @@ class Parser:
     def p_result_doublecomp(self, p):
         'result : expression COMPARISON expression COMPARISON expression'
         p[0] = (self.evaluate(str(p[1]) + str(p[2]) + str(p[3]), self.point) and
-        self.evaluate(str(p[3]) + str(p[4]) + str(p[5]), self.point))
+                self.evaluate(str(p[3]) + str(p[4]) + str(p[5]), self.point))
 
     def p_result_comp(self, p):
         'result : expression COMPARISON expression'
@@ -102,12 +104,12 @@ class Parser:
     def p_expression_divide(self, p):
         'expression : expression DIVIDE expression'
         p[0] = p[1] / p[3]
+
     def p_expression_power(self, p):
         'expression : expression POW expression'
         p[0] = math.pow(p[1], p[3])
 
 #====================================================
-
     def p_expression_group(self, p):
         'expression : LPAREN expression RPAREN'
         p[0] = p[2]
