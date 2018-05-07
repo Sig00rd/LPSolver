@@ -132,4 +132,4 @@ class Parser:
 
 #====================================================
     def p_error(self, p):
-        print("Syntax error in input!")
+        pass

@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from parser import Parser
 import speaker
 import points
@@ -9,8 +11,7 @@ from queue import Queue
 POINTS_PER_ITERATION = 1000
 STARTING_RADIUS = 10000
 RELATIVE_DIFFERENCE_THRESHOLD = 0.005
-MAX_NUMBER_OF_RETRIES = 20
-NUM_THREADS = 4
+MAX_NUMBER_OF_RETRIES = 50
 
 
 # get data from user
@@ -62,6 +63,7 @@ while True:
                 if fail_count >= MAX_NUMBER_OF_RETRIES:
                     break
 
+        # if this step yields no valid point
         except KeyError:
             fail_count += 1
             if fail_count >= MAX_NUMBER_OF_RETRIES:
@@ -84,18 +86,16 @@ while True:
                 if fail_count >= MAX_NUMBER_OF_RETRIES:
                     break
 
-        # if this step yielded no valid point
+        # if this step yields no valid point
         except KeyError:
             fail_count += 1
             if fail_count >= MAX_NUMBER_OF_RETRIES:
                 break
 
-    ding_count += 1
 
-
-if current_best_value is None :
+if current_best_value is None:
     print("Nie znaleziono punktu spelniajacego zalozenia :-(")
 else:
-    print(current_best_value)
-
-#t0d0: przerobic powyzsze zeby hulalo po petli i dodac wielowatkowosc
+    print("Najlepszy punkt: ")
+    points.present(current_best_point, variable_list)
+    print("Wartosc funkcji celu w punkcie: %9.7f" % current_best_value)

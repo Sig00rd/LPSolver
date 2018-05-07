@@ -5,8 +5,16 @@ import random
 def generate_point(previous_best_point, radius, variables):
     _point = {}
     for variable in variables:
-        _point[variable] = random.uniform(previous_best_point[variable] - radius,
-                                          previous_best_point[variable] + radius)
+         _point[variable] = random.uniform(previous_best_point[variable] - radius,
+                                           previous_best_point[variable] + radius)
+    return _point
+
+
+def generate_point_int(previous_best_point, radius, variables):
+    _point = {}
+    for variable in variables:
+        _point[variable] = random.randrange(int(previous_best_point[variable] - radius),
+                                            int(previous_best_point[variable] + radius))
     return _point
 
 
@@ -29,3 +37,9 @@ def distance(point1, point2, variables):
     for variable in variables:
         total_distance += (point1[variable] - point2[variable])**2
     return math.sqrt(total_distance)
+
+
+def present(point, variables):
+    for variable in variables:
+        print("Wartosc: %9.7f zmiennej :" % point[variable], variable)
+
