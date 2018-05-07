@@ -10,7 +10,7 @@ from queue import Queue
 # magical numbers
 POINTS_PER_ITERATION = 1000
 STARTING_RADIUS = 10000
-RELATIVE_DIFFERENCE_THRESHOLD = 0.005
+RELATIVE_DIFFERENCE_THRESHOLD = 0.01
 MAX_NUMBER_OF_RETRIES = 50
 
 
@@ -34,7 +34,7 @@ while True:
     valid_points = SortedDict()
 
     for i in range(POINTS_PER_ITERATION):
-        new_point = points.generate_point(current_best_point, current_radius, variable_list)
+        new_point = points.generate_point_int(current_best_point, current_radius, variable_list)
         points_queue.put(new_point)
 
     while not points_queue.empty():
@@ -60,7 +60,7 @@ while True:
 
             else:
                 fail_count += 1
-                if fail_count >= MAX_NUMBER_OF_RETRIES:
+                if fail_count >= MAX_NUMBER_OF_RETRIES/2:
                     break
 
         # if this step yields no valid point
@@ -83,7 +83,7 @@ while True:
 
             else:
                 fail_count += 1
-                if fail_count >= MAX_NUMBER_OF_RETRIES:
+                if fail_count >= MAX_NUMBER_OF_RETRIES/2:
                     break
 
         # if this step yields no valid point
