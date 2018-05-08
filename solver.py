@@ -45,11 +45,10 @@ while True:
         points_queue.task_done()
 
 
-# this needs to be rewritten later...
     if objective == "max":
         try:
             current_step_best_value, current_step_best_point = valid_points.popitem()
-            # if there were no valid point previously or this step's best point is better than current best
+            # if there was no valid point previously or this step's best point is better than current best
             if current_best_value is None or\
                     current_step_best_value * (1 - RELATIVE_DIFFERENCE_THRESHOLD) > current_best_value:
 
@@ -72,7 +71,7 @@ while True:
     else:
         try:
             current_step_best_value, current_step_best_point = valid_points.popitem(False)
-            # if there were no valid point previously or this step's best point is better than current best
+            # if there was no valid point previously or this step's best point is better than current best
             if current_best_value is None or\
                     current_step_best_value * (1+RELATIVE_DIFFERENCE_THRESHOLD) < current_best_value:
 
