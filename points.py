@@ -18,7 +18,7 @@ def generate_point_int(previous_best_point, radius, variables):
     return _point
 
 
-def generate_starting_point(variables):
+def generate_starting_point(variables, start_radius):
     _point = {}
     for variable in variables:
         _point[variable] = 0

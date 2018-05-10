@@ -24,8 +24,15 @@ def get_goal_function():
 
 
 def get_min_or_max():
-    answer = input("Szukana jest minimalna (min) czy maksymalna (max) wartosc funkcji celu? min/max: ")
+    answer = input("Szukana jest minimalna (min) czy maksymalna (max) wartosc funkcji celu? [min/max]: ")
     if answer == "min" or answer == "max":
         return answer
     else:
         return get_min_or_max()
+
+def get_dziedzina():
+    answer = input("Zmienne naleza do zbioru liczb rzeczywistych (r) czy naturalnych (n)? [r/n]")
+    if answer == "r" or answer == "n":
+        return answer
+    else:
+        return get_dziedzina()
