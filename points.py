@@ -2,6 +2,10 @@ import math
 import random
 
 
+class ListEmptyError(Exception):
+    pass
+
+
 def generate_point(previous_best_point, radius, variables):
     _point = {}
     for variable in variables:
@@ -39,7 +43,32 @@ def distance(point1, point2, variables):
     return math.sqrt(total_distance)
 
 
-def present(point, variables):
-    for variable in variables:
-        print("Wartosc: %9.7f zmiennej :" % point[variable], variable)
+def present(point, variables, best_value):
+    if best_value is None:
+        print("Nie znaleziono punktu spełniajacego założenia :-(")
+    else:
+        for variable in variables:
+            print("Wartość: {0:8.4f} zmiennej {1}:".format(point[variable], variable))
+            print("Wartość funkcji celu w tym punkcie: {:8.4f}".format(best_value))
+
+
+def get_best_point_and_value(point_list, _objective):
+    if not point_list:
+        raise ListEmptyError
+
+    else:
+        _point, _value = point_list.pop()
+
+    for point in point_list:
+        new_point, new_point_value = point
+
+        if _objective == "max":
+            if new_point_value > _value:
+                _point, _value = new_point, new_point_value
+        else:
+            if new_point_value < _value:
+                _point, _value = new_point, new_point_value
+
+    return _point, _value
+
 
