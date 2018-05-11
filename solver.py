@@ -5,11 +5,13 @@ import speaker
 import points
 
 from queue import Queue
+import math
+
 
 # magical numbers
-POINTS_PER_ITERATION = 1000
+POINTS_PER_ITERATION = 5000
 STARTING_RADIUS = 4000
-RELATIVE_DIFFERENCE_THRESHOLD = 0.01
+RELATIVE_DIFFERENCE_THRESHOLD = 0.005
 MAX_NUMBER_OF_RETRIES = 50
 
 
@@ -48,51 +50,28 @@ while True:
             valid_points.append((point, goal_function_value_at_point))
         points_queue.task_done()
 
-    if objective == "max":
-        try:
-            current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
-            # if there was no valid point previously or this step's best point is better than current best
-            if current_best_value is None or\
-                    current_step_best_value * (1 - RELATIVE_DIFFERENCE_THRESHOLD) > current_best_value:
+    try:
+        current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
 
-                fail_count = 0
-                current_radius = points.distance(current_best_point, current_step_best_point, variable_list)
-                current_best_point = current_step_best_point
-                current_best_value = current_step_best_value
+        if current_best_value is None:
+            current_best_point = current_step_best_point
+            current_best_value = current_step_best_value
 
-            else:
-                fail_count += 1
-                if fail_count >= MAX_NUMBER_OF_RETRIES/2:
-                    break
+        elif (objective == "max" and current_step_best_value > current_best_value)\
+                or (objective == "min" and current_step_best_value < current_best_value):
 
-        # if this step yields no valid point
-        except points.ListEmptyError:
-            fail_count += 1
-            if fail_count >= MAX_NUMBER_OF_RETRIES:
+            relative_difference = math.fabs((current_step_best_value - current_best_value)/current_best_value)
+            current_radius = points.distance(current_best_point, current_step_best_point, variable_list)
+            current_best_point = current_step_best_point
+            current_best_value = current_step_best_value
+
+            if relative_difference < RELATIVE_DIFFERENCE_THRESHOLD:
                 break
 
-    else:
-        try:
-            current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
-            # if there was no valid point previously or this step's best point is better than current best
-            if current_best_value is None or\
-                    current_step_best_value * (1+RELATIVE_DIFFERENCE_THRESHOLD) < current_best_value:
-
-                fail_count = 0
-                current_radius = points.distance(current_best_point, current_step_best_point, variable_list)
-                current_best_point = current_step_best_point
-                current_best_value = current_step_best_value
-
-            else:
-                fail_count += 1
-                if fail_count >= MAX_NUMBER_OF_RETRIES/2:
-                    break
-
-        # if this step yields no valid point
-        except points.ListEmptyError:
-            fail_count += 1
-            if fail_count >= MAX_NUMBER_OF_RETRIES:
-                break
+    except points.ListEmptyError:
+        fail_count += 1
+        if fail_count >= MAX_NUMBER_OF_RETRIES:
+            break
 
 
 points.present(current_best_point, variable_list, current_best_value)

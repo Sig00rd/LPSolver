@@ -70,5 +70,3 @@ def get_best_point_and_value(point_list, _objective):
                 _point, _value = new_point, new_point_value
 
     return _point, _value
-
-
