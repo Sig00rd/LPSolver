@@ -9,23 +9,23 @@ class ListEmptyError(Exception):
 def generate_point(previous_best_point, radius, variables):
     _point = {}
     for variable in variables:
-         _point[variable] = random.uniform(previous_best_point[variable] - radius,
-                                           previous_best_point[variable] + radius)
+        _point[variable] = random.uniform(previous_best_point[variable] - radius,
+                                          previous_best_point[variable] + radius)
     return _point
 
 
 def generate_point_int(previous_best_point, radius, variables):
     _point = {}
     for variable in variables:
-        _point[variable] = random.randrange(int(previous_best_point[variable] - radius),
-                                            int(previous_best_point[variable] + radius))
+        _point[variable] = random.randint(previous_best_point[variable] - radius,
+                                          previous_best_point[variable] + radius)
     return _point
 
 
-def generate_starting_point(variables, start_radius):
+def generate_starting_point(variables, _starting_radius):
     _point = {}
     for variable in variables:
-        _point[variable] = 0
+        _point[variable] = _starting_radius
     return _point
 
 
@@ -48,8 +48,9 @@ def present(point, variables, best_value):
         print("Nie znaleziono punktu spełniajacego założenia :-(")
     else:
         for variable in variables:
-            print("Wartość: {0:8.4f} zmiennej {1}:".format(point[variable], variable))
-            print("Wartość funkcji celu w tym punkcie: {:8.4f}".format(best_value))
+            print("Wartość: {0:8.8f} zmiennej {1}:".format(point[variable], variable))
+
+        print("Wartość funkcji celu w tym punkcie: {:8.4f}".format(best_value))
 
 
 def get_best_point_and_value(point_list, _objective):

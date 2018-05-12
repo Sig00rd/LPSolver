@@ -9,10 +9,11 @@ import math
 
 
 # magical numbers
-POINTS_PER_ITERATION = 5000
-STARTING_RADIUS = 4000
-RELATIVE_DIFFERENCE_THRESHOLD = 0.005
-MAX_NUMBER_OF_RETRIES = 50
+POINTS_PER_ITERATION = 10000
+STARTING_RADIUS = 500
+
+DIFFERENCE_THRESHOLD = 5
+MAX_NUMBER_OF_RETRIES = 5
 
 
 # get data from user
@@ -60,12 +61,12 @@ while True:
         elif (objective == "max" and current_step_best_value > current_best_value)\
                 or (objective == "min" and current_step_best_value < current_best_value):
 
-            relative_difference = math.fabs((current_step_best_value - current_best_value)/current_best_value)
+            difference = math.fabs(current_step_best_value - current_best_value)
             current_radius = points.distance(current_best_point, current_step_best_point, variable_list)
             current_best_point = current_step_best_point
             current_best_value = current_step_best_value
 
-            if relative_difference < RELATIVE_DIFFERENCE_THRESHOLD:
+            if difference < DIFFERENCE_THRESHOLD:
                 break
 
     except points.ListEmptyError:
