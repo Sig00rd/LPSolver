@@ -10,9 +10,9 @@ import math
 
 # magical numbers
 POINTS_PER_ITERATION = 10000
-STARTING_RADIUS = 500
+STARTING_RADIUS = 10
 
-DIFFERENCE_THRESHOLD = 5
+DIFFERENCE_THRESHOLD = 0.0001
 MAX_NUMBER_OF_RETRIES = 5
 
 
@@ -65,6 +65,7 @@ while True:
             current_radius = points.distance(current_best_point, current_step_best_point, variable_list)
             current_best_point = current_step_best_point
             current_best_value = current_step_best_value
+            print(current_best_value)
 
             if difference < DIFFERENCE_THRESHOLD:
                 break

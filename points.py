@@ -9,16 +9,13 @@ class ListEmptyError(Exception):
 def generate_point(previous_best_point, radius, variables):
     _point = {}
     for variable in variables:
-        _point[variable] = random.uniform(previous_best_point[variable] - radius,
-                                          previous_best_point[variable] + radius)
-    return _point
+        start = 0.0
+        end = previous_best_point[variable] + radius
 
+        if previous_best_point[variable] - radius > 0:
+            start = previous_best_point[variable]
 
-def generate_point_int(previous_best_point, radius, variables):
-    _point = {}
-    for variable in variables:
-        _point[variable] = random.randint(previous_best_point[variable] - radius,
-                                          previous_best_point[variable] + radius)
+        _point[variable] = random.uniform(start, end)
     return _point
 
 
