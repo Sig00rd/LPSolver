@@ -63,7 +63,8 @@ while True:
                     or (objective == "min" and current_step_best_value < current_best_value):
 
                 difference = math.fabs(current_step_best_value - current_best_value)
-                current_radius = points.distance(current_best_point, current_step_best_point, variable_list)
+                current_radius = points.choose_new_radius(current_radius, current_best_point,
+                                                          current_step_best_point, variable_list)
                 current_best_point = current_step_best_point
                 current_best_value = current_step_best_value
                 print(current_best_value)

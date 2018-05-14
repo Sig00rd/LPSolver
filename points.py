@@ -1,6 +1,9 @@
 import math
 import random
 
+RELATIVE_BOUNDARY_THICKNESS = 0.05
+RELATIVE_RADIUS_ENLARGEMENT = 1.5
+
 
 class ListEmptyError(Exception):
     pass
@@ -68,3 +71,11 @@ def get_best_point_and_value(point_list, _objective):
                 _point, _value = new_point, new_point_value
 
     return _point, _value
+
+def choose_new_radius(previous_radius, point1, point2, variables):
+    _distance = distance(point1, point2, variables)
+    relative_difference = math.fabs(previous_radius - _distance)/previous_radius
+    if relative_difference <= RELATIVE_BOUNDARY_THICKNESS:
+        return previous_radius * 1.5
+    else:
+        return _distance
