@@ -1,6 +1,8 @@
 import math
 import random
 
+from queue import Queue
+
 RELATIVE_BOUNDARY_THICKNESS = 0.05
 RELATIVE_RADIUS_ENLARGEMENT = 1.5
 
@@ -72,6 +74,7 @@ def get_best_point_and_value(point_list, _objective):
 
     return _point, _value
 
+
 def choose_new_radius(previous_radius, point1, point2, variables):
     _distance = distance(point1, point2, variables)
     relative_difference = math.fabs(previous_radius - _distance)/previous_radius
@@ -79,3 +82,13 @@ def choose_new_radius(previous_radius, point1, point2, variables):
         return previous_radius * 1.5
     else:
         return _distance
+
+
+def generate_queue_of_points(queue_size, best_point, radius, variables):
+    output_queue = Queue()
+    for i in range(queue_size):
+        new_point = generate_point(best_point, radius, variables)
+        output_queue.put(new_point)
+
+    return output_queue
+
