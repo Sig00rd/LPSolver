@@ -38,9 +38,9 @@ def check_point_for_constraints(parser, given_point, constraints):
     return True
 
 
-def distance(point1, point2, variables):
+def distance(point1, point2):
     total_distance = 0.0
-    for variable in variables:
+    for variable in point1:
         total_distance += (point1[variable] - point2[variable])**2
     return math.sqrt(total_distance)
 
@@ -75,8 +75,8 @@ def get_best_point_and_value(point_list, _objective):
     return _point, _value
 
 
-def choose_new_radius(previous_radius, point1, point2, variables):
-    _distance = distance(point1, point2, variables)
+def choose_new_radius(previous_radius, point1, point2):
+    _distance = distance(point1, point2)
     relative_difference = math.fabs(previous_radius - _distance)/previous_radius
     if relative_difference <= RELATIVE_BOUNDARY_THICKNESS:
         return previous_radius * 1.5

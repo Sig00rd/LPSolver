@@ -38,7 +38,6 @@ while True:
             if points.check_point_for_constraints(new_parser, point, constraint_list) is True:
                 goal_function_value_at_point = new_parser.evaluate(goal_function, point)
                 valid_points.append((point, goal_function_value_at_point))
-            points_queue.task_done()
 
         try:
             current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
@@ -51,8 +50,7 @@ while True:
                     or (objective == "min" and current_step_best_value < current_best_value):
 
                 differences = solver_utils.calculate_differences(current_best_value, current_step_best_value)
-                current_radius = points.choose_new_radius(current_radius, current_best_point,
-                                                          current_step_best_point, variable_list)
+                current_radius = points.choose_new_radius(current_radius, current_best_point, current_step_best_point)
                 current_best_point = current_step_best_point
                 current_best_value = current_step_best_value
                 print(current_best_value)
