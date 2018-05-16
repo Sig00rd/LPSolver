@@ -67,27 +67,31 @@ class Parser:
             p[0] = (p[1] > p[3])
 
 #====================================================
-    def p_expression_int_float(self, p):
+    def p_factor_constant_or_number(self, p):
         '''
-        expression : INT
+        factor     : INT
                    | FLOAT
-        '''
-        p[0] = p[1]
-
-    def p_expression_constant(self, p):
-        '''
-        expression : CONST_PI
+                   | CONST_PI
                    | CONST_E
         '''
         p[0] = p[1]
 
-    def p_expression_variable(self, p):
-        'expression : VARIABLE'
+    def p_factor_variable(self, p):
+        'factor : VARIABLE'
         p[0] = self.point[p[1]]
 
     def p_expression_u_minus(self, p):
         'expression : MINUS expression %prec UMINUS'
         p[0] = -p[2]
+
+    def p_expression_term(self, p):
+        'expression : term'
+        p[0] = p[1]
+
+    def p_term_factor(self, p):
+        'term : factor'
+        p[0] = p[1]
+
 #====================================================
     def p_expression_plus(self, p):
         'expression : expression PLUS expression'
@@ -97,25 +101,29 @@ class Parser:
         'expression : expression MINUS expression'
         p[0] = p[1] - p[3]
 
-    def p_expression_multiply(self, p):
-        'expression : expression MULTIPLY expression'
+    def p_term_multiply(self, p):
+        'term : term MULTIPLY factor'
         p[0] = p[1] * p[3]
 
     def p_expression_divide(self, p):
-        'expression : expression DIVIDE expression'
+        'term : term DIVIDE factor'
         p[0] = p[1] / p[3]
 
     def p_expression_power(self, p):
         'expression : expression POW expression'
         p[0] = math.pow(p[1], p[3])
 
+    def p_expression_starless_multiplication(self, p):
+        'expression : term VARIABLE'
+        p[0] = p[1] * self.point[p[2]]
+
 #====================================================
     def p_expression_group(self, p):
-        'expression : LPAREN expression RPAREN'
+        'factor : LPAREN expression RPAREN'
         p[0] = p[2]
 
     def p_expression_function(self, p):
-        'expression : FUNCTION LPAREN expression RPAREN'
+        'expression : FUNCTION LPAREN factor RPAREN'
         if p[1] == "sin":
             p[0] = math.sin(p[3])
         elif p[1] == "cos":

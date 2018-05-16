@@ -63,8 +63,6 @@ while True:
                         differences):
                     break
 
-
-
         except points.ListEmptyError:
             fail_count += 1
             if fail_count >= MAX_NUMBER_OF_RETRIES:
