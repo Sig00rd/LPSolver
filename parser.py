@@ -7,9 +7,7 @@ import math
 
 
 class Parser:
-
-    point = {}
-    tokens = ()
+    tokens = token_rules.tokens
 
     precedence = (
         ("nonassoc", "COMPARISON"),
@@ -20,9 +18,9 @@ class Parser:
     )
 
     def __init__(self):
-        self.tokens = token_rules.tokens
-        lex.lex(module=token_rules)
-        yacc.yacc(module=self)
+        self.point = {}
+        self.lexer = lex.lex(module=token_rules)
+        self.yacc = yacc.yacc(module=self)
 
     def run(self):
         while True:
@@ -30,14 +28,13 @@ class Parser:
                 s = input(">> ")
             except EOFError:
                 break
-            result = yacc.parse(s)
+            result = self.yacc.parse(s)
             print(result)
 
     def evaluate(self, function_expression, _point):
         self.point = _point
-
         try:
-            a = yacc.parse(function_expression)
+            a = self.yacc.parse(function_expression)
             return a
         except EOFError:
             print("Zły error")
