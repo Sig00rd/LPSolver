@@ -1,16 +1,27 @@
-from parser import Parser
+import parser
 import speaker
 import solver_utils
 import points
+import multiprocessing
+
+
+def check_point(in_queue, out_queue, given_parser, constraints, goal_function_expression):
+    while not in_queue.empty():
+        point = in_queue.get()
+        in_queue.task_done()
+
+        if points.check_point_for_constraints(given_parser, point, constraints) is True:
+            goal_function_value_at_point = given_parser.evaluate(goal_function_expression, point)
+            out_queue.put((point, goal_function_value_at_point))
 
 
 # magical numbers
 POINTS_PER_ITERATION = 10000
 STARTING_RADIUS = 1000
-
 RELATIVE_DIFFERENCE_THRESHOLD = 0.005
 ABSOLUTE_DIFFERENCE_THRESHOLD = 0.001
 MAX_NUMBER_OF_RETRIES = 20
+NUMBER_OF_PROCESSES = multiprocessing.cpu_count()
 
 
 # get data from user
@@ -18,7 +29,7 @@ variable_list = speaker.get_variables()
 constraint_list = speaker.get_constraint_functions()
 goal_function = speaker.get_goal_function()
 objective = speaker.get_min_or_max()
-new_parser = Parser()
+new_parser = parser.Parser()
 
 fail_count = 0
 
@@ -26,18 +37,27 @@ fail_count = 0
 starting_point = points.generate_starting_point(variable_list, STARTING_RADIUS)
 current_radius = STARTING_RADIUS
 current_best_point, current_best_value = starting_point, None
+points_queue = multiprocessing.JoinableQueue()
+valid_points = multiprocessing.Queue()
+parsers = []
+processes = []
+
+for i in range(NUMBER_OF_PROCESSES):
+    parsers.append(parser.Parser())
 
 while True:
     try:
-        points_queue = points.generate_queue_of_points(POINTS_PER_ITERATION, current_best_point,
-                                                       current_radius, variable_list)
-        valid_points = []
+        points.fill_queue_with_points(points_queue, POINTS_PER_ITERATION,
+                                      current_best_point, current_radius, variable_list)
 
-        while not points_queue.empty():
-            point = points_queue.get()
-            if points.check_point_for_constraints(new_parser, point, constraint_list) is True:
-                goal_function_value_at_point = new_parser.evaluate(goal_function, point)
-                valid_points.append((point, goal_function_value_at_point))
+        for i in range(NUMBER_OF_PROCESSES):
+            process = multiprocessing.Process(target=check_point,
+                                              args=(points_queue, valid_points, parsers[i],
+                                                    constraint_list, goal_function))
+            processes.append(process)
+            process.start()
+
+        points_queue.join()
 
         try:
             current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
@@ -61,12 +81,16 @@ while True:
                         differences):
                     break
 
-        except points.ListEmptyError:
+        except points.QueueEmptyException:
             fail_count += 1
             if fail_count >= MAX_NUMBER_OF_RETRIES:
                 break
+
     except KeyboardInterrupt:
         break
 
 
 points.present(current_best_point, variable_list, current_best_value)
+
+for p in multiprocessing.active_children():
+    p.terminate()

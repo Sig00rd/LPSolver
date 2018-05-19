@@ -7,7 +7,7 @@ RELATIVE_BOUNDARY_THICKNESS = 0.05
 RELATIVE_RADIUS_ENLARGEMENT = 1.5
 
 
-class ListEmptyError(Exception):
+class QueueEmptyException(Exception):
     pass
 
 
@@ -55,24 +55,24 @@ def present(point, variables, best_value):
         print("Wartość funkcji celu w tym punkcie: {:8.4f}".format(best_value))
 
 
-def get_best_point_and_value(point_list, _objective):
-    if not point_list:
-        raise ListEmptyError
+def get_best_point_and_value(point_queue, _objective):
+    if point_queue.empty():
+        raise QueueEmptyException()
 
     else:
-        _point, _value = point_list.pop()
+        _point, _value = point_queue.get()
 
-    for point in point_list:
-        new_point, new_point_value = point
+        while not point_queue.empty():
+            new_point, new_point_value = point_queue.get()
 
-        if _objective == "max":
-            if new_point_value > _value:
-                _point, _value = new_point, new_point_value
-        else:
-            if new_point_value < _value:
-                _point, _value = new_point, new_point_value
+            if _objective == "max":
+                if new_point_value > _value:
+                    _point, _value = new_point, new_point_value
+            else:
+                if new_point_value < _value:
+                    _point, _value = new_point, new_point_value
 
-    return _point, _value
+        return _point, _value
 
 
 def choose_new_radius(previous_radius, point1, point2):
@@ -84,11 +84,8 @@ def choose_new_radius(previous_radius, point1, point2):
         return _distance
 
 
-def generate_queue_of_points(queue_size, best_point, radius, variables):
-    output_queue = Queue()
+def fill_queue_with_points(q, queue_size, best_point, radius, variables):
     for i in range(queue_size):
         new_point = generate_point(best_point, radius, variables)
-        output_queue.put(new_point)
-
-    return output_queue
+        q.put(new_point)
 
