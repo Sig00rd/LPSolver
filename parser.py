@@ -9,6 +9,42 @@ import math
 class Parser:
     tokens = token_rules.tokens
 
+    def __init__(self):
+        self.lexer = lex.lex(module=token_rules)
+
+
+class VariableExtractor(Parser):
+    def __init__(self, expression_list):
+        super().__init__()
+        self.variable_list = []
+        self.expression_list = expression_list
+
+    def extract_variables(self):
+        for expression in self.expression_list:
+            self.do_stuff(expression)
+        return self.variable_list
+
+    def do_stuff(self, expression):
+        token_list = self.build_token_list(expression)
+        for token in token_list:
+            if token.type == "VARIABLE":
+                variable = token.value
+                if not self.variable_list.count(variable):
+                    self.variable_list.append(variable)
+
+    def build_token_list(self, expression):
+        token_list = []
+        self.lexer.input(expression)
+        while True:
+            token = self.lexer.token()
+            if token:
+                token_list.append(token)
+            else:
+                break
+        return token_list
+
+
+class PointParser(Parser):
     precedence = (
         ("nonassoc", "COMPARISON"),
         ("left", "PLUS", "MINUS"),
@@ -18,9 +54,9 @@ class Parser:
     )
 
     def __init__(self):
-        self.point = {}
-        self.lexer = lex.lex(module=token_rules)
+        super().__init__()
         self.yacc = yacc.yacc(module=self)
+        self.point = {}
 
     def run(self):
         while True:
@@ -37,7 +73,7 @@ class Parser:
             a = self.yacc.parse(function_expression)
             return a
         except EOFError:
-            print("Zły error")
+            print("Groźny błąd!")
 
 #====================================================
     def p_result_calc(self, p):
@@ -130,11 +166,9 @@ class Parser:
         elif p[1] == "cotan":
             p[0] = 1/math.tan(p[3])
 
-#====================================================
     def p_empty(self, p):
         'empty : '
         p[0] = None
 
-#====================================================
     def p_error(self, p):
         pass

@@ -2,7 +2,9 @@ import parser
 import speaker
 import solver_utils
 import points
+
 import multiprocessing
+import time
 
 
 def check_point(in_queue, out_queue, given_parser, constraints, goal_function_expression):
@@ -16,8 +18,8 @@ def check_point(in_queue, out_queue, given_parser, constraints, goal_function_ex
 
 
 # magical numbers
-POINTS_PER_ITERATION = 10000
-STARTING_RADIUS = 1000
+POINTS_PER_ITERATION = 500
+STARTING_RADIUS = 10
 RELATIVE_DIFFERENCE_THRESHOLD = 0.005
 ABSOLUTE_DIFFERENCE_THRESHOLD = 0.001
 MAX_NUMBER_OF_RETRIES = 20
@@ -25,13 +27,16 @@ NUMBER_OF_PROCESSES = multiprocessing.cpu_count()
 
 
 # get data from user
-variable_list = speaker.get_variables()
 constraint_list = speaker.get_constraint_functions()
 goal_function = speaker.get_goal_function()
 objective = speaker.get_min_or_max()
-new_parser = parser.Parser()
+
+# get variables from constraints
+extractor = parser.VariableExtractor(constraint_list)
+variable_list = extractor.extract_variables()
 
 fail_count = 0
+
 
 # set starting point, value at point and radius
 starting_point = points.generate_starting_point(variable_list, STARTING_RADIUS)
@@ -43,7 +48,7 @@ parsers = []
 processes = []
 
 for i in range(NUMBER_OF_PROCESSES):
-    parsers.append(parser.Parser())
+    parsers.append(parser.PointParser())
 
 while True:
     try:
@@ -58,6 +63,7 @@ while True:
             process.start()
 
         points_queue.join()
+        time.sleep(0.01)
 
         try:
             current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
