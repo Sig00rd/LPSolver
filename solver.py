@@ -18,11 +18,11 @@ def check_point(in_queue, out_queue, given_parser, constraints, goal_function_ex
 
 
 # magical numbers
-POINTS_PER_ITERATION = 500
-STARTING_RADIUS = 10
-RELATIVE_DIFFERENCE_THRESHOLD = 0.005
+POINTS_PER_ITERATION = 5000
+STARTING_RADIUS = 2500
+RELATIVE_DIFFERENCE_THRESHOLD = 0.0005
 ABSOLUTE_DIFFERENCE_THRESHOLD = 0.001
-MAX_NUMBER_OF_RETRIES = 20
+MAX_NUMBER_OF_RETRIES = 100
 NUMBER_OF_PROCESSES = multiprocessing.cpu_count()
 
 
@@ -31,9 +31,11 @@ constraint_list = speaker.get_constraint_functions()
 goal_function = speaker.get_goal_function()
 objective = speaker.get_min_or_max()
 
-# get variables from constraints
-extractor = parser.VariableExtractor(constraint_list)
-variable_list = extractor.extract_variables()
+# get variables from constraints and goal function
+constraints_and_goal = constraint_list.copy()
+constraints_and_goal.append(goal_function)
+extractor = parser.VariableExtractor()
+variable_list = extractor.extract_variables(constraints_and_goal)
 
 fail_count = 0
 
@@ -68,9 +70,12 @@ while True:
         try:
             current_step_best_point, current_step_best_value = points.get_best_point_and_value(valid_points, objective)
 
+            fail_count = 0
+
             if current_best_value is None:
                 current_best_point = current_step_best_point
                 current_best_value = current_step_best_value
+                print(current_best_value)
 
             elif (objective == "max" and current_step_best_value > current_best_value)\
                     or (objective == "min" and current_step_best_value < current_best_value):
@@ -89,6 +94,9 @@ while True:
 
         except points.QueueEmptyException:
             fail_count += 1
+            if current_best_value is None and (fail_count % 5 == 0):
+                current_radius *= 0.75
+
             if fail_count >= MAX_NUMBER_OF_RETRIES:
                 break
 

@@ -1,7 +1,7 @@
-from parser import Parser
+import parser
 
 point = {"x1":5, "x2":3}
-parser = Parser()
+parser = parser.PointParser()
 
 a = parser.evaluate("-2/3x2", point)
 print(a)

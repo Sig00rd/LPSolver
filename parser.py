@@ -14,17 +14,18 @@ class Parser:
 
 
 class VariableExtractor(Parser):
-    def __init__(self, expression_list):
+    def __init__(self):
         super().__init__()
         self.variable_list = []
-        self.expression_list = expression_list
+        self.expression_list = []
 
-    def extract_variables(self):
+    def extract_variables(self, expression_list):
+        self.expression_list = expression_list
         for expression in self.expression_list:
-            self.do_stuff(expression)
+            self.extract_from_expression(expression)
         return self.variable_list
 
-    def do_stuff(self, expression):
+    def extract_from_expression(self, expression):
         token_list = self.build_token_list(expression)
         for token in token_list:
             if token.type == "VARIABLE":
@@ -143,7 +144,7 @@ class PointParser(Parser):
         p[0] = p[1] / p[3]
 
     def p_expression_power(self, p):
-        'expression : expression POW expression'
+        'factor : factor POW factor'
         p[0] = math.pow(p[1], p[3])
 
     def p_expression_starless_multiplication(self, p):
@@ -151,12 +152,12 @@ class PointParser(Parser):
         p[0] = p[1] * self.point[p[2]]
 
 #====================================================
-    def p_expression_group(self, p):
+    def p_factor_group(self, p):
         'factor : LPAREN expression RPAREN'
         p[0] = p[2]
 
     def p_expression_function(self, p):
-        'expression : FUNCTION LPAREN factor RPAREN'
+        'factor : FUNCTION LPAREN expression RPAREN'
         if p[1] == "sin":
             p[0] = math.sin(p[3])
         elif p[1] == "cos":

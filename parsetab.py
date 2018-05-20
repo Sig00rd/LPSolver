@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'nonassocCOMPARISONleftPLUSMINUSleftMULTIPLYDIVIDErightPOWrightUMINUSCOMPARISON CONST_E CONST_PI DIVIDE FLOAT FUNCTION INT LPAREN MINUS MULTIPLY PLUS POW RPAREN VARIABLE\n        result : expression\n               | empty\n        result : expression COMPARISON expression COMPARISON expressionresult : expression COMPARISON expression\n        factor     : INT\n                   | FLOAT\n                   | CONST_PI\n                   | CONST_E\n        factor : VARIABLEexpression : MINUS expression %prec UMINUSexpression : termterm : factorexpression : expression PLUS expressionexpression : expression MINUS expressionterm : term MULTIPLY factorterm : term DIVIDE factorexpression : expression POW expressionexpression : term VARIABLEfactor : LPAREN expression RPARENexpression : FUNCTION LPAREN factor RPARENempty : '
+_lr_signature = 'nonassocCOMPARISONleftPLUSMINUSleftMULTIPLYDIVIDErightPOWrightUMINUSCOMPARISON CONST_E CONST_PI DIVIDE FLOAT FUNCTION INT LPAREN MINUS MULTIPLY PLUS POW RPAREN VARIABLE\n        result : expression\n               | empty\n        result : expression COMPARISON expression COMPARISON expressionresult : expression COMPARISON expression\n        factor     : INT\n                   | FLOAT\n                   | CONST_PI\n                   | CONST_E\n        factor : VARIABLEexpression : MINUS expression %prec UMINUSexpression : termterm : factorexpression : expression PLUS expressionexpression : expression MINUS expressionterm : term MULTIPLY factorterm : term DIVIDE factorfactor : factor POW factorexpression : term VARIABLEfactor : LPAREN expression RPARENfactor : FUNCTION LPAREN expression RPARENempty : '
     
-_lr_action_items = {'MINUS':([0,2,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,23,24,25,26,27,28,29,31,32,33,34,],[4,16,4,-11,-9,4,-12,-5,-6,-7,-8,4,4,4,4,-10,-18,16,16,-13,-14,-17,-15,-16,-19,4,-20,16,]),'FUNCTION':([0,4,8,14,15,16,17,32,],[7,7,7,7,7,7,7,7,]),'$end':([0,1,2,3,5,6,9,10,11,12,13,18,19,24,25,26,27,28,29,31,33,34,],[-21,0,-1,-2,-11,-9,-12,-5,-6,-7,-8,-10,-18,-4,-13,-14,-17,-15,-16,-19,-20,-3,]),'INT':([0,4,8,14,15,16,17,20,21,22,32,],[10,10,10,10,10,10,10,10,10,10,10,]),'FLOAT':([0,4,8,14,15,16,17,20,21,22,32,],[11,11,11,11,11,11,11,11,11,11,11,]),'CONST_PI':([0,4,8,14,15,16,17,20,21,22,32,],[12,12,12,12,12,12,12,12,12,12,12,]),'CONST_E':([0,4,8,14,15,16,17,20,21,22,32,],[13,13,13,13,13,13,13,13,13,13,13,]),'VARIABLE':([0,4,5,6,8,9,10,11,12,13,14,15,16,17,20,21,22,28,29,31,32,],[6,6,19,-9,6,-12,-5,-6,-7,-8,6,6,6,6,6,6,6,-15,-16,-19,6,]),'LPAREN':([0,4,7,8,14,15,16,17,20,21,22,32,],[8,8,22,8,8,8,8,8,8,8,8,8,]),'COMPARISON':([2,5,6,9,10,11,12,13,18,19,24,25,26,27,28,29,31,33,],[14,-11,-9,-12,-5,-6,-7,-8,-10,-18,32,-13,-14,-17,-15,-16,-19,-20,]),'PLUS':([2,5,6,9,10,11,12,13,18,19,23,24,25,26,27,28,29,31,33,34,],[15,-11,-9,-12,-5,-6,-7,-8,-10,-18,15,15,-13,-14,-17,-15,-16,-19,-20,15,]),'POW':([2,5,6,9,10,11,12,13,18,19,23,24,25,26,27,28,29,31,33,34,],[17,-11,-9,-12,-5,-6,-7,-8,-10,-18,17,17,17,17,17,-15,-16,-19,-20,17,]),'RPAREN':([5,6,9,10,11,12,13,18,19,23,25,26,27,28,29,30,31,33,],[-11,-9,-12,-5,-6,-7,-8,-10,-18,31,-13,-14,-17,-15,-16,33,-19,-20,]),'MULTIPLY':([5,6,9,10,11,12,13,28,29,31,],[20,-9,-12,-5,-6,-7,-8,-15,-16,-19,]),'DIVIDE':([5,6,9,10,11,12,13,28,29,31,],[21,-9,-12,-5,-6,-7,-8,-15,-16,-19,]),}
+_lr_action_items = {'MINUS':([0,2,4,5,6,7,8,9,10,11,12,14,15,16,17,18,22,23,24,25,26,27,28,29,30,31,32,33,34,],[4,16,4,-11,-9,-12,-5,-6,-7,-8,4,4,4,4,-10,-18,16,4,16,-13,-14,-15,-16,-17,-19,16,4,-20,16,]),'$end':([0,1,2,3,5,6,7,8,9,10,11,17,18,24,25,26,27,28,29,30,33,34,],[-21,0,-1,-2,-11,-9,-12,-5,-6,-7,-8,-10,-18,-4,-13,-14,-15,-16,-17,-19,-20,-3,]),'INT':([0,4,12,14,15,16,19,20,21,23,32,],[8,8,8,8,8,8,8,8,8,8,8,]),'FLOAT':([0,4,12,14,15,16,19,20,21,23,32,],[9,9,9,9,9,9,9,9,9,9,9,]),'CONST_PI':([0,4,12,14,15,16,19,20,21,23,32,],[10,10,10,10,10,10,10,10,10,10,10,]),'CONST_E':([0,4,12,14,15,16,19,20,21,23,32,],[11,11,11,11,11,11,11,11,11,11,11,]),'VARIABLE':([0,4,5,6,7,8,9,10,11,12,14,15,16,19,20,21,23,27,28,29,30,32,33,],[6,6,18,-9,-12,-5,-6,-7,-8,6,6,6,6,6,6,6,6,-15,-16,-17,-19,6,-20,]),'LPAREN':([0,4,12,13,14,15,16,19,20,21,23,32,],[12,12,12,23,12,12,12,12,12,12,12,12,]),'FUNCTION':([0,4,12,14,15,16,19,20,21,23,32,],[13,13,13,13,13,13,13,13,13,13,13,]),'COMPARISON':([2,5,6,7,8,9,10,11,17,18,24,25,26,27,28,29,30,33,],[14,-11,-9,-12,-5,-6,-7,-8,-10,-18,32,-13,-14,-15,-16,-17,-19,-20,]),'PLUS':([2,5,6,7,8,9,10,11,17,18,22,24,25,26,27,28,29,30,31,33,34,],[15,-11,-9,-12,-5,-6,-7,-8,-10,-18,15,15,-13,-14,-15,-16,-17,-19,15,-20,15,]),'RPAREN':([5,6,7,8,9,10,11,17,18,22,25,26,27,28,29,30,31,33,],[-11,-9,-12,-5,-6,-7,-8,-10,-18,30,-13,-14,-15,-16,-17,-19,33,-20,]),'MULTIPLY':([5,6,7,8,9,10,11,27,28,29,30,33,],[19,-9,-12,-5,-6,-7,-8,-15,-16,-17,-19,-20,]),'DIVIDE':([5,6,7,8,9,10,11,27,28,29,30,33,],[20,-9,-12,-5,-6,-7,-8,-15,-16,-17,-19,-20,]),'POW':([6,7,8,9,10,11,27,28,29,30,33,],[-9,21,-5,-6,-7,-8,21,21,21,-19,-20,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'result':([0,],[1,]),'expression':([0,4,8,14,15,16,17,32,],[2,18,23,24,25,26,27,34,]),'empty':([0,],[3,]),'term':([0,4,8,14,15,16,17,32,],[5,5,5,5,5,5,5,5,]),'factor':([0,4,8,14,15,16,17,20,21,22,32,],[9,9,9,9,9,9,9,28,29,30,9,]),}
+_lr_goto_items = {'result':([0,],[1,]),'expression':([0,4,12,14,15,16,23,32,],[2,17,22,24,25,26,31,34,]),'empty':([0,],[3,]),'term':([0,4,12,14,15,16,23,32,],[5,5,5,5,5,5,5,5,]),'factor':([0,4,12,14,15,16,19,20,21,23,32,],[7,7,7,7,7,7,27,28,29,7,7,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,25 +27,25 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> result","S'",1,None,None,None),
-  ('result -> expression','result',1,'p_result_calc','parser.py',48),
-  ('result -> empty','result',1,'p_result_calc','parser.py',49),
-  ('result -> expression COMPARISON expression COMPARISON expression','result',5,'p_result_doublecomp','parser.py',54),
-  ('result -> expression COMPARISON expression','result',3,'p_result_comp','parser.py',59),
-  ('factor -> INT','factor',1,'p_factor_constant_or_number','parser.py',72),
-  ('factor -> FLOAT','factor',1,'p_factor_constant_or_number','parser.py',73),
-  ('factor -> CONST_PI','factor',1,'p_factor_constant_or_number','parser.py',74),
-  ('factor -> CONST_E','factor',1,'p_factor_constant_or_number','parser.py',75),
-  ('factor -> VARIABLE','factor',1,'p_factor_variable','parser.py',80),
-  ('expression -> MINUS expression','expression',2,'p_expression_u_minus','parser.py',84),
-  ('expression -> term','expression',1,'p_expression_term','parser.py',88),
-  ('term -> factor','term',1,'p_term_factor','parser.py',92),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_plus','parser.py',97),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_minus','parser.py',101),
-  ('term -> term MULTIPLY factor','term',3,'p_term_multiply','parser.py',105),
-  ('term -> term DIVIDE factor','term',3,'p_expression_divide','parser.py',109),
-  ('expression -> expression POW expression','expression',3,'p_expression_power','parser.py',113),
-  ('expression -> term VARIABLE','expression',2,'p_expression_starless_multiplication','parser.py',117),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_expression_group','parser.py',122),
-  ('expression -> FUNCTION LPAREN factor RPAREN','expression',4,'p_expression_function','parser.py',126),
-  ('empty -> <empty>','empty',0,'p_empty','parser.py',138),
+  ('result -> expression','result',1,'p_result_calc','parser.py',82),
+  ('result -> empty','result',1,'p_result_calc','parser.py',83),
+  ('result -> expression COMPARISON expression COMPARISON expression','result',5,'p_result_doublecomp','parser.py',88),
+  ('result -> expression COMPARISON expression','result',3,'p_result_comp','parser.py',93),
+  ('factor -> INT','factor',1,'p_factor_constant_or_number','parser.py',106),
+  ('factor -> FLOAT','factor',1,'p_factor_constant_or_number','parser.py',107),
+  ('factor -> CONST_PI','factor',1,'p_factor_constant_or_number','parser.py',108),
+  ('factor -> CONST_E','factor',1,'p_factor_constant_or_number','parser.py',109),
+  ('factor -> VARIABLE','factor',1,'p_factor_variable','parser.py',114),
+  ('expression -> MINUS expression','expression',2,'p_expression_u_minus','parser.py',118),
+  ('expression -> term','expression',1,'p_expression_term','parser.py',122),
+  ('term -> factor','term',1,'p_term_factor','parser.py',126),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_plus','parser.py',131),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_minus','parser.py',135),
+  ('term -> term MULTIPLY factor','term',3,'p_term_multiply','parser.py',139),
+  ('term -> term DIVIDE factor','term',3,'p_expression_divide','parser.py',143),
+  ('factor -> factor POW factor','factor',3,'p_expression_power','parser.py',147),
+  ('expression -> term VARIABLE','expression',2,'p_expression_starless_multiplication','parser.py',151),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_group','parser.py',156),
+  ('factor -> FUNCTION LPAREN expression RPAREN','factor',4,'p_expression_function','parser.py',160),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',171),
 ]

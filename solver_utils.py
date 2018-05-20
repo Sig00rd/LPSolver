@@ -10,6 +10,6 @@ def stop_condition(relative_diff_threshold, absolute_diff_threshold, differences
 
 def calculate_differences(val1, val2):
     absolute_difference = math.fabs(val1 - val2)
-    relative_difference = absolute_difference/val1
+    relative_difference = absolute_difference/math.fabs(val1)
 
     return absolute_difference, relative_difference

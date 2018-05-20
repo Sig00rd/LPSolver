@@ -19,10 +19,10 @@ Rule 13    expression -> expression PLUS expression
 Rule 14    expression -> expression MINUS expression
 Rule 15    term -> term MULTIPLY factor
 Rule 16    term -> term DIVIDE factor
-Rule 17    expression -> expression POW expression
+Rule 17    factor -> factor POW factor
 Rule 18    expression -> term VARIABLE
 Rule 19    factor -> LPAREN expression RPAREN
-Rule 20    expression -> FUNCTION LPAREN factor RPAREN
+Rule 20    factor -> FUNCTION LPAREN expression RPAREN
 Rule 21    empty -> <empty>
 
 Terminals, with rules where they appear
@@ -46,8 +46,8 @@ error                :
 Nonterminals, with rules where they appear
 
 empty                : 2
-expression           : 1 3 3 3 4 4 10 13 13 14 14 17 17 19
-factor               : 12 15 16 20
+expression           : 1 3 3 3 4 4 10 13 13 14 14 19 20
+factor               : 12 15 16 17 17
 result               : 0
 term                 : 11 15 16 18
 
@@ -64,9 +64,7 @@ state 0
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (21) empty -> .
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
@@ -76,23 +74,25 @@ state 0
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
     $end            reduce using rule 21 (empty -> .)
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
     result                         shift and go to state 1
     expression                     shift and go to state 2
     empty                          shift and go to state 3
     term                           shift and go to state 5
-    factor                         shift and go to state 9
+    factor                         shift and go to state 7
 
 state 1
 
@@ -107,13 +107,11 @@ state 2
     (4) result -> expression . COMPARISON expression
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
     $end            reduce using rule 1 (result -> expression .)
     COMPARISON      shift and go to state 14
     PLUS            shift and go to state 15
     MINUS           shift and go to state 16
-    POW             shift and go to state 17
 
 
 state 3
@@ -130,9 +128,7 @@ state 4
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
     (16) term -> . term DIVIDE factor
@@ -141,20 +137,22 @@ state 4
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
-    expression                     shift and go to state 18
+    expression                     shift and go to state 17
     term                           shift and go to state 5
-    factor                         shift and go to state 9
+    factor                         shift and go to state 7
 
 state 5
 
@@ -166,46 +164,112 @@ state 5
     COMPARISON      reduce using rule 11 (expression -> term .)
     PLUS            reduce using rule 11 (expression -> term .)
     MINUS           reduce using rule 11 (expression -> term .)
-    POW             reduce using rule 11 (expression -> term .)
     $end            reduce using rule 11 (expression -> term .)
     RPAREN          reduce using rule 11 (expression -> term .)
-    VARIABLE        shift and go to state 19
-    MULTIPLY        shift and go to state 20
-    DIVIDE          shift and go to state 21
+    VARIABLE        shift and go to state 18
+    MULTIPLY        shift and go to state 19
+    DIVIDE          shift and go to state 20
 
 
 state 6
 
     (9) factor -> VARIABLE .
 
+    POW             reduce using rule 9 (factor -> VARIABLE .)
     VARIABLE        reduce using rule 9 (factor -> VARIABLE .)
     MULTIPLY        reduce using rule 9 (factor -> VARIABLE .)
     DIVIDE          reduce using rule 9 (factor -> VARIABLE .)
     COMPARISON      reduce using rule 9 (factor -> VARIABLE .)
     PLUS            reduce using rule 9 (factor -> VARIABLE .)
     MINUS           reduce using rule 9 (factor -> VARIABLE .)
-    POW             reduce using rule 9 (factor -> VARIABLE .)
     $end            reduce using rule 9 (factor -> VARIABLE .)
     RPAREN          reduce using rule 9 (factor -> VARIABLE .)
 
 
 state 7
 
-    (20) expression -> FUNCTION . LPAREN factor RPAREN
+    (12) term -> factor .
+    (17) factor -> factor . POW factor
 
-    LPAREN          shift and go to state 22
+    VARIABLE        reduce using rule 12 (term -> factor .)
+    MULTIPLY        reduce using rule 12 (term -> factor .)
+    DIVIDE          reduce using rule 12 (term -> factor .)
+    COMPARISON      reduce using rule 12 (term -> factor .)
+    PLUS            reduce using rule 12 (term -> factor .)
+    MINUS           reduce using rule 12 (term -> factor .)
+    $end            reduce using rule 12 (term -> factor .)
+    RPAREN          reduce using rule 12 (term -> factor .)
+    POW             shift and go to state 21
 
 
 state 8
+
+    (5) factor -> INT .
+
+    POW             reduce using rule 5 (factor -> INT .)
+    VARIABLE        reduce using rule 5 (factor -> INT .)
+    MULTIPLY        reduce using rule 5 (factor -> INT .)
+    DIVIDE          reduce using rule 5 (factor -> INT .)
+    COMPARISON      reduce using rule 5 (factor -> INT .)
+    PLUS            reduce using rule 5 (factor -> INT .)
+    MINUS           reduce using rule 5 (factor -> INT .)
+    $end            reduce using rule 5 (factor -> INT .)
+    RPAREN          reduce using rule 5 (factor -> INT .)
+
+
+state 9
+
+    (6) factor -> FLOAT .
+
+    POW             reduce using rule 6 (factor -> FLOAT .)
+    VARIABLE        reduce using rule 6 (factor -> FLOAT .)
+    MULTIPLY        reduce using rule 6 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 6 (factor -> FLOAT .)
+    COMPARISON      reduce using rule 6 (factor -> FLOAT .)
+    PLUS            reduce using rule 6 (factor -> FLOAT .)
+    MINUS           reduce using rule 6 (factor -> FLOAT .)
+    $end            reduce using rule 6 (factor -> FLOAT .)
+    RPAREN          reduce using rule 6 (factor -> FLOAT .)
+
+
+state 10
+
+    (7) factor -> CONST_PI .
+
+    POW             reduce using rule 7 (factor -> CONST_PI .)
+    VARIABLE        reduce using rule 7 (factor -> CONST_PI .)
+    MULTIPLY        reduce using rule 7 (factor -> CONST_PI .)
+    DIVIDE          reduce using rule 7 (factor -> CONST_PI .)
+    COMPARISON      reduce using rule 7 (factor -> CONST_PI .)
+    PLUS            reduce using rule 7 (factor -> CONST_PI .)
+    MINUS           reduce using rule 7 (factor -> CONST_PI .)
+    $end            reduce using rule 7 (factor -> CONST_PI .)
+    RPAREN          reduce using rule 7 (factor -> CONST_PI .)
+
+
+state 11
+
+    (8) factor -> CONST_E .
+
+    POW             reduce using rule 8 (factor -> CONST_E .)
+    VARIABLE        reduce using rule 8 (factor -> CONST_E .)
+    MULTIPLY        reduce using rule 8 (factor -> CONST_E .)
+    DIVIDE          reduce using rule 8 (factor -> CONST_E .)
+    COMPARISON      reduce using rule 8 (factor -> CONST_E .)
+    PLUS            reduce using rule 8 (factor -> CONST_E .)
+    MINUS           reduce using rule 8 (factor -> CONST_E .)
+    $end            reduce using rule 8 (factor -> CONST_E .)
+    RPAREN          reduce using rule 8 (factor -> CONST_E .)
+
+
+state 12
 
     (19) factor -> LPAREN . expression RPAREN
     (10) expression -> . MINUS expression
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
     (16) term -> . term DIVIDE factor
@@ -214,94 +278,28 @@ state 8
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
-    expression                     shift and go to state 23
+    expression                     shift and go to state 22
     term                           shift and go to state 5
-    factor                         shift and go to state 9
-
-state 9
-
-    (12) term -> factor .
-
-    VARIABLE        reduce using rule 12 (term -> factor .)
-    MULTIPLY        reduce using rule 12 (term -> factor .)
-    DIVIDE          reduce using rule 12 (term -> factor .)
-    COMPARISON      reduce using rule 12 (term -> factor .)
-    PLUS            reduce using rule 12 (term -> factor .)
-    MINUS           reduce using rule 12 (term -> factor .)
-    POW             reduce using rule 12 (term -> factor .)
-    $end            reduce using rule 12 (term -> factor .)
-    RPAREN          reduce using rule 12 (term -> factor .)
-
-
-state 10
-
-    (5) factor -> INT .
-
-    VARIABLE        reduce using rule 5 (factor -> INT .)
-    MULTIPLY        reduce using rule 5 (factor -> INT .)
-    DIVIDE          reduce using rule 5 (factor -> INT .)
-    COMPARISON      reduce using rule 5 (factor -> INT .)
-    PLUS            reduce using rule 5 (factor -> INT .)
-    MINUS           reduce using rule 5 (factor -> INT .)
-    POW             reduce using rule 5 (factor -> INT .)
-    $end            reduce using rule 5 (factor -> INT .)
-    RPAREN          reduce using rule 5 (factor -> INT .)
-
-
-state 11
-
-    (6) factor -> FLOAT .
-
-    VARIABLE        reduce using rule 6 (factor -> FLOAT .)
-    MULTIPLY        reduce using rule 6 (factor -> FLOAT .)
-    DIVIDE          reduce using rule 6 (factor -> FLOAT .)
-    COMPARISON      reduce using rule 6 (factor -> FLOAT .)
-    PLUS            reduce using rule 6 (factor -> FLOAT .)
-    MINUS           reduce using rule 6 (factor -> FLOAT .)
-    POW             reduce using rule 6 (factor -> FLOAT .)
-    $end            reduce using rule 6 (factor -> FLOAT .)
-    RPAREN          reduce using rule 6 (factor -> FLOAT .)
-
-
-state 12
-
-    (7) factor -> CONST_PI .
-
-    VARIABLE        reduce using rule 7 (factor -> CONST_PI .)
-    MULTIPLY        reduce using rule 7 (factor -> CONST_PI .)
-    DIVIDE          reduce using rule 7 (factor -> CONST_PI .)
-    COMPARISON      reduce using rule 7 (factor -> CONST_PI .)
-    PLUS            reduce using rule 7 (factor -> CONST_PI .)
-    MINUS           reduce using rule 7 (factor -> CONST_PI .)
-    POW             reduce using rule 7 (factor -> CONST_PI .)
-    $end            reduce using rule 7 (factor -> CONST_PI .)
-    RPAREN          reduce using rule 7 (factor -> CONST_PI .)
-
+    factor                         shift and go to state 7
 
 state 13
 
-    (8) factor -> CONST_E .
+    (20) factor -> FUNCTION . LPAREN expression RPAREN
 
-    VARIABLE        reduce using rule 8 (factor -> CONST_E .)
-    MULTIPLY        reduce using rule 8 (factor -> CONST_E .)
-    DIVIDE          reduce using rule 8 (factor -> CONST_E .)
-    COMPARISON      reduce using rule 8 (factor -> CONST_E .)
-    PLUS            reduce using rule 8 (factor -> CONST_E .)
-    MINUS           reduce using rule 8 (factor -> CONST_E .)
-    POW             reduce using rule 8 (factor -> CONST_E .)
-    $end            reduce using rule 8 (factor -> CONST_E .)
-    RPAREN          reduce using rule 8 (factor -> CONST_E .)
+    LPAREN          shift and go to state 23
 
 
 state 14
@@ -312,9 +310,7 @@ state 14
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
     (16) term -> . term DIVIDE factor
@@ -323,20 +319,22 @@ state 14
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
     expression                     shift and go to state 24
     term                           shift and go to state 5
-    factor                         shift and go to state 9
+    factor                         shift and go to state 7
 
 state 15
 
@@ -345,9 +343,7 @@ state 15
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
     (16) term -> . term DIVIDE factor
@@ -356,20 +352,22 @@ state 15
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
     expression                     shift and go to state 25
     term                           shift and go to state 5
-    factor                         shift and go to state 9
+    factor                         shift and go to state 7
 
 state 16
 
@@ -378,9 +376,7 @@ state 16
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
     (16) term -> . term DIVIDE factor
@@ -389,86 +385,51 @@ state 16
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
     expression                     shift and go to state 26
     term                           shift and go to state 5
-    factor                         shift and go to state 9
+    factor                         shift and go to state 7
 
 state 17
-
-    (17) expression -> expression POW . expression
-    (10) expression -> . MINUS expression
-    (11) expression -> . term
-    (13) expression -> . expression PLUS expression
-    (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
-    (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
-    (12) term -> . factor
-    (15) term -> . term MULTIPLY factor
-    (16) term -> . term DIVIDE factor
-    (5) factor -> . INT
-    (6) factor -> . FLOAT
-    (7) factor -> . CONST_PI
-    (8) factor -> . CONST_E
-    (9) factor -> . VARIABLE
-    (19) factor -> . LPAREN expression RPAREN
-
-    MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
-    VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
-
-    expression                     shift and go to state 27
-    term                           shift and go to state 5
-    factor                         shift and go to state 9
-
-state 18
 
     (10) expression -> MINUS expression .
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
     COMPARISON      reduce using rule 10 (expression -> MINUS expression .)
     PLUS            reduce using rule 10 (expression -> MINUS expression .)
     MINUS           reduce using rule 10 (expression -> MINUS expression .)
-    POW             reduce using rule 10 (expression -> MINUS expression .)
     $end            reduce using rule 10 (expression -> MINUS expression .)
     RPAREN          reduce using rule 10 (expression -> MINUS expression .)
 
   ! PLUS            [ shift and go to state 15 ]
   ! MINUS           [ shift and go to state 16 ]
-  ! POW             [ shift and go to state 17 ]
 
 
-state 19
+state 18
 
     (18) expression -> term VARIABLE .
 
     COMPARISON      reduce using rule 18 (expression -> term VARIABLE .)
     PLUS            reduce using rule 18 (expression -> term VARIABLE .)
     MINUS           reduce using rule 18 (expression -> term VARIABLE .)
-    POW             reduce using rule 18 (expression -> term VARIABLE .)
     $end            reduce using rule 18 (expression -> term VARIABLE .)
     RPAREN          reduce using rule 18 (expression -> term VARIABLE .)
 
 
-state 20
+state 19
 
     (15) term -> term MULTIPLY . factor
     (5) factor -> . INT
@@ -476,18 +437,21 @@ state 20
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
-    factor                         shift and go to state 28
+    factor                         shift and go to state 27
 
-state 21
+state 20
 
     (16) term -> term DIVIDE . factor
     (5) factor -> . INT
@@ -495,48 +459,85 @@ state 21
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
-    factor                         shift and go to state 29
+    factor                         shift and go to state 28
 
-state 22
+state 21
 
-    (20) expression -> FUNCTION LPAREN . factor RPAREN
+    (17) factor -> factor POW . factor
     (5) factor -> . INT
     (6) factor -> . FLOAT
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
-    factor                         shift and go to state 30
+    factor                         shift and go to state 29
 
-state 23
+state 22
 
     (19) factor -> LPAREN expression . RPAREN
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
-    RPAREN          shift and go to state 31
+    RPAREN          shift and go to state 30
     PLUS            shift and go to state 15
     MINUS           shift and go to state 16
-    POW             shift and go to state 17
 
+
+state 23
+
+    (20) factor -> FUNCTION LPAREN . expression RPAREN
+    (10) expression -> . MINUS expression
+    (11) expression -> . term
+    (13) expression -> . expression PLUS expression
+    (14) expression -> . expression MINUS expression
+    (18) expression -> . term VARIABLE
+    (12) term -> . factor
+    (15) term -> . term MULTIPLY factor
+    (16) term -> . term DIVIDE factor
+    (5) factor -> . INT
+    (6) factor -> . FLOAT
+    (7) factor -> . CONST_PI
+    (8) factor -> . CONST_E
+    (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
+    (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
+
+    MINUS           shift and go to state 4
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
+    VARIABLE        shift and go to state 6
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
+
+    expression                     shift and go to state 31
+    term                           shift and go to state 5
+    factor                         shift and go to state 7
 
 state 24
 
@@ -544,13 +545,11 @@ state 24
     (4) result -> expression COMPARISON expression .
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
     COMPARISON      shift and go to state 32
     $end            reduce using rule 4 (result -> expression COMPARISON expression .)
     PLUS            shift and go to state 15
     MINUS           shift and go to state 16
-    POW             shift and go to state 17
 
 
 state 25
@@ -558,16 +557,13 @@ state 25
     (13) expression -> expression PLUS expression .
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
     COMPARISON      reduce using rule 13 (expression -> expression PLUS expression .)
     PLUS            reduce using rule 13 (expression -> expression PLUS expression .)
     MINUS           reduce using rule 13 (expression -> expression PLUS expression .)
     $end            reduce using rule 13 (expression -> expression PLUS expression .)
     RPAREN          reduce using rule 13 (expression -> expression PLUS expression .)
-    POW             shift and go to state 17
 
-  ! POW             [ reduce using rule 13 (expression -> expression PLUS expression .) ]
   ! PLUS            [ shift and go to state 15 ]
   ! MINUS           [ shift and go to state 16 ]
 
@@ -577,42 +573,21 @@ state 26
     (14) expression -> expression MINUS expression .
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
     COMPARISON      reduce using rule 14 (expression -> expression MINUS expression .)
     PLUS            reduce using rule 14 (expression -> expression MINUS expression .)
     MINUS           reduce using rule 14 (expression -> expression MINUS expression .)
     $end            reduce using rule 14 (expression -> expression MINUS expression .)
     RPAREN          reduce using rule 14 (expression -> expression MINUS expression .)
-    POW             shift and go to state 17
 
-  ! POW             [ reduce using rule 14 (expression -> expression MINUS expression .) ]
   ! PLUS            [ shift and go to state 15 ]
   ! MINUS           [ shift and go to state 16 ]
 
 
 state 27
 
-    (17) expression -> expression POW expression .
-    (13) expression -> expression . PLUS expression
-    (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
-
-    COMPARISON      reduce using rule 17 (expression -> expression POW expression .)
-    PLUS            reduce using rule 17 (expression -> expression POW expression .)
-    MINUS           reduce using rule 17 (expression -> expression POW expression .)
-    $end            reduce using rule 17 (expression -> expression POW expression .)
-    RPAREN          reduce using rule 17 (expression -> expression POW expression .)
-    POW             shift and go to state 17
-
-  ! POW             [ reduce using rule 17 (expression -> expression POW expression .) ]
-  ! PLUS            [ shift and go to state 15 ]
-  ! MINUS           [ shift and go to state 16 ]
-
-
-state 28
-
     (15) term -> term MULTIPLY factor .
+    (17) factor -> factor . POW factor
 
     VARIABLE        reduce using rule 15 (term -> term MULTIPLY factor .)
     MULTIPLY        reduce using rule 15 (term -> term MULTIPLY factor .)
@@ -620,14 +595,15 @@ state 28
     COMPARISON      reduce using rule 15 (term -> term MULTIPLY factor .)
     PLUS            reduce using rule 15 (term -> term MULTIPLY factor .)
     MINUS           reduce using rule 15 (term -> term MULTIPLY factor .)
-    POW             reduce using rule 15 (term -> term MULTIPLY factor .)
     $end            reduce using rule 15 (term -> term MULTIPLY factor .)
     RPAREN          reduce using rule 15 (term -> term MULTIPLY factor .)
+    POW             shift and go to state 21
 
 
-state 29
+state 28
 
     (16) term -> term DIVIDE factor .
+    (17) factor -> factor . POW factor
 
     VARIABLE        reduce using rule 16 (term -> term DIVIDE factor .)
     MULTIPLY        reduce using rule 16 (term -> term DIVIDE factor .)
@@ -635,31 +611,53 @@ state 29
     COMPARISON      reduce using rule 16 (term -> term DIVIDE factor .)
     PLUS            reduce using rule 16 (term -> term DIVIDE factor .)
     MINUS           reduce using rule 16 (term -> term DIVIDE factor .)
-    POW             reduce using rule 16 (term -> term DIVIDE factor .)
     $end            reduce using rule 16 (term -> term DIVIDE factor .)
     RPAREN          reduce using rule 16 (term -> term DIVIDE factor .)
+    POW             shift and go to state 21
+
+
+state 29
+
+    (17) factor -> factor POW factor .
+    (17) factor -> factor . POW factor
+
+    VARIABLE        reduce using rule 17 (factor -> factor POW factor .)
+    MULTIPLY        reduce using rule 17 (factor -> factor POW factor .)
+    DIVIDE          reduce using rule 17 (factor -> factor POW factor .)
+    COMPARISON      reduce using rule 17 (factor -> factor POW factor .)
+    PLUS            reduce using rule 17 (factor -> factor POW factor .)
+    MINUS           reduce using rule 17 (factor -> factor POW factor .)
+    $end            reduce using rule 17 (factor -> factor POW factor .)
+    RPAREN          reduce using rule 17 (factor -> factor POW factor .)
+    POW             shift and go to state 21
+
+  ! POW             [ reduce using rule 17 (factor -> factor POW factor .) ]
 
 
 state 30
 
-    (20) expression -> FUNCTION LPAREN factor . RPAREN
-
-    RPAREN          shift and go to state 33
-
-
-state 31
-
     (19) factor -> LPAREN expression RPAREN .
 
+    POW             reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     VARIABLE        reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     MULTIPLY        reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     DIVIDE          reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     COMPARISON      reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     PLUS            reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     MINUS           reduce using rule 19 (factor -> LPAREN expression RPAREN .)
-    POW             reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     $end            reduce using rule 19 (factor -> LPAREN expression RPAREN .)
     RPAREN          reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+
+
+state 31
+
+    (20) factor -> FUNCTION LPAREN expression . RPAREN
+    (13) expression -> expression . PLUS expression
+    (14) expression -> expression . MINUS expression
+
+    RPAREN          shift and go to state 33
+    PLUS            shift and go to state 15
+    MINUS           shift and go to state 16
 
 
 state 32
@@ -669,9 +667,7 @@ state 32
     (11) expression -> . term
     (13) expression -> . expression PLUS expression
     (14) expression -> . expression MINUS expression
-    (17) expression -> . expression POW expression
     (18) expression -> . term VARIABLE
-    (20) expression -> . FUNCTION LPAREN factor RPAREN
     (12) term -> . factor
     (15) term -> . term MULTIPLY factor
     (16) term -> . term DIVIDE factor
@@ -680,31 +676,36 @@ state 32
     (7) factor -> . CONST_PI
     (8) factor -> . CONST_E
     (9) factor -> . VARIABLE
+    (17) factor -> . factor POW factor
     (19) factor -> . LPAREN expression RPAREN
+    (20) factor -> . FUNCTION LPAREN expression RPAREN
 
     MINUS           shift and go to state 4
-    FUNCTION        shift and go to state 7
-    INT             shift and go to state 10
-    FLOAT           shift and go to state 11
-    CONST_PI        shift and go to state 12
-    CONST_E         shift and go to state 13
+    INT             shift and go to state 8
+    FLOAT           shift and go to state 9
+    CONST_PI        shift and go to state 10
+    CONST_E         shift and go to state 11
     VARIABLE        shift and go to state 6
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 12
+    FUNCTION        shift and go to state 13
 
     expression                     shift and go to state 34
     term                           shift and go to state 5
-    factor                         shift and go to state 9
+    factor                         shift and go to state 7
 
 state 33
 
-    (20) expression -> FUNCTION LPAREN factor RPAREN .
+    (20) factor -> FUNCTION LPAREN expression RPAREN .
 
-    COMPARISON      reduce using rule 20 (expression -> FUNCTION LPAREN factor RPAREN .)
-    PLUS            reduce using rule 20 (expression -> FUNCTION LPAREN factor RPAREN .)
-    MINUS           reduce using rule 20 (expression -> FUNCTION LPAREN factor RPAREN .)
-    POW             reduce using rule 20 (expression -> FUNCTION LPAREN factor RPAREN .)
-    $end            reduce using rule 20 (expression -> FUNCTION LPAREN factor RPAREN .)
-    RPAREN          reduce using rule 20 (expression -> FUNCTION LPAREN factor RPAREN .)
+    POW             reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    VARIABLE        reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    MULTIPLY        reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    COMPARISON      reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    PLUS            reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    MINUS           reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    $end            reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 20 (factor -> FUNCTION LPAREN expression RPAREN .)
 
 
 state 34
@@ -712,10 +713,8 @@ state 34
     (3) result -> expression COMPARISON expression COMPARISON expression .
     (13) expression -> expression . PLUS expression
     (14) expression -> expression . MINUS expression
-    (17) expression -> expression . POW expression
 
     $end            reduce using rule 3 (result -> expression COMPARISON expression COMPARISON expression .)
     PLUS            shift and go to state 15
     MINUS           shift and go to state 16
-    POW             shift and go to state 17
 
