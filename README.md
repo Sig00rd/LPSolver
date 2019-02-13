@@ -8,7 +8,7 @@ Constraints are input as text, and can range from expressions with simple linear
 ```
 to more complex ones such as
 ```
-y / (z) < sin(x * y^(-1/5)) < z^(pi * e)
+y / z < sin(x * y^(-1/5)) < z^(pi * e)
 ```
 
 The program uses grammar and lexing rules written with Python Lex-Yacc for parsing mathematical expressions and concurrency via multiprocessing to speed up evaluating whether or not generated points satisfy constraint functions.
